@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+  "version": "1.0",
+  "protocolVersion": "2025-06-18",
+  "serverInfo": {
+    "name": "us.wasimamin/portfolio",
+    "title": "Wasim Amin — Counsel · Strategy · AI",
+    "version": "1.0.0",
+    "description": "Portfolio and professional discovery card for Wasim Amin, J.D., M.B.A. — U.S. corporate attorney, management consultant, and frontier-AI specialist with 22+ years of cross-border practice.",
+    "iconUrl": "https://wasimamin.us/favicon.ico",
+    "documentationUrl": "https://wasimamin.us"
+  },
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "/mcp"
+  },
+  "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {}
+  },
+  "authentication": {
+    "required": false
+  },
+  "instructions": "This card advertises the professional portfolio site of Wasim Amin, J.D., M.B.A. — U.S. corporate attorney, management consultant, and frontier-AI specialist. The site is a static informational resource; no MCP tools, resources, or prompts are currently served at the transport endpoint."
+}
