@@ -1,0 +1,31 @@
+# netlify.toml — wasimamin.us
+
+[[headers]]
+  for = "/.well-known/mcp/server-card.json"
+  [headers.values]
+    Content-Type = "application/json; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+
+# ── Private tools — password protected ───────────────────────────────────────
+# Access via: https://wasimamin.us/private/LRkFOQzb3fY/
+# Requires Netlify Pro or higher for password protection.
+# If on Starter plan, the obscure URL alone is your gate.
+
+[[redirects]]
+  from = "/tracker"
+  to = "/private/LRkFOQzb3fY/"
+  status = 200
+  force = true
