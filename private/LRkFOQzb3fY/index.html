@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application Ledger — Wasim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+<style>
+  /* ─── Tokens ─────────────────────────────────────────────────── */
+  :root {
+    /* Surface palette: cool dark with violet undertone */
+    --bg-deep:     #0e0d16;
+    --bg-base:     #14131e;
+    --bg-raised:   #1c1b29;
+    --bg-card:     #1f1e2d;
+    --bg-card-hi:  #25243a;
+    --bg-input:    #15141f;
+
+    /* Hairlines & dividers */
+    --line:        rgba(255, 255, 255, 0.06);
+    --line-strong: rgba(255, 255, 255, 0.12);
+
+    /* Text */
+    --ink:         #ece9f5;
+    --ink-mute:    #9a93b3;
+    --ink-faint:   #5b566e;
+
+    /* Status hues — each its own personality */
+    --hue-not:        #6b7a8f;  /* slate — to do */
+    --hue-applied:    #5a7df7;  /* cobalt — committed */
+    --hue-interview:  #e8a838;  /* marigold — anticipating */
+    --hue-interviewed:#a672ee;  /* amethyst — in progress */
+    --hue-offer:      #34c489;  /* emerald — positive */
+    --hue-rejected:   #c66b7a;  /* dusty rose — closed */
+
+    /* Type scale */
+    --serif:  'Fraunces', Georgia, serif;
+    --sans:   'Inter', system-ui, sans-serif;
+    --mono:   'JetBrains Mono', ui-monospace, monospace;
+
+    /* Motion */
+    --ease:   cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg-deep);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Subtle ambient lighting across the page */
+  body {
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(90, 125, 247, 0.08), transparent 60%),
+      radial-gradient(900px 500px at 85% 110%, rgba(166, 114, 238, 0.06), transparent 60%),
+      var(--bg-deep);
+    min-height: 100vh;
+  }
+
+  ::selection { background: rgba(166, 114, 238, 0.35); color: #fff; }
+
+  /* ─── Layout ─────────────────────────────────────────────────── */
+  .page {
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 32px 36px 64px;
+  }
+
+  @media (max-width: 768px) {
+    .page { padding: 24px 18px 48px; }
+  }
+
+  /* ─── Header ─────────────────────────────────────────────────── */
+  .page-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px 32px;
+    align-items: end;
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .brand h1 .roman {
+    font-style: normal;
+    font-weight: 300;
+  }
+
+  .brand .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+
+  .brand .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background: var(--ink-faint);
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-bottom: 3px;
+  }
+
+  .brand .subtitle {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    color: var(--ink-mute);
+    max-width: 480px;
+    line-height: 1.5;
+  }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .search {
+    position: relative;
+    width: 280px;
+  }
+
+  .search input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px 0 40px;
+    background: var(--bg-input);
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.03),
+      inset 0 1px 8px rgba(0,0,0,0.3);
+  }
+
+  .search input::placeholder { color: var(--ink-faint); }
+
+  .search input:focus {
+    border-color: rgba(166, 114, 238, 0.5);
+    box-shadow:
+      inset 0 1px 8px rgba(0,0,0,0.3),
+      0 0 0 3px rgba(166, 114, 238, 0.12);
+  }
+
+  .search svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-faint);
+    pointer-events: none;
+  }
+
+  .btn {
+    height: 44px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #2f2c45 0%, #1e1c2e 100%);
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.07),
+      0 2px 4px rgba(0,0,0,0.3),
+      0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(180deg, #3a3651 0%, #25223a 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      0 4px 8px rgba(0,0,0,0.35),
+      0 12px 28px rgba(0,0,0,0.3);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-primary .plus {
+    font-size: 16px;
+    line-height: 1;
+    color: #a672ee;
+    text-shadow: 0 0 8px rgba(166, 114, 238, 0.5);
+  }
+
+  /* ─── Stats strip ────────────────────────────────────────────── */
+  .stats {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: 4px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 0 22px;
+    border-right: 1px solid var(--line);
+  }
+
+  .stat:first-child { padding-left: 0; }
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 1.6rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .stat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--dot-color, var(--ink-faint));
+    box-shadow: 0 0 8px var(--dot-color, transparent);
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* ─── Board ──────────────────────────────────────────────────── */
+  .board {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(260px, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 1400px) {
+    .board { overflow-x: auto; padding-bottom: 12px; }
+  }
+
+  @media (max-width: 768px) {
+    .board {
+      grid-template-columns: 1fr;
+      overflow-x: visible;
+    }
+  }
+
+  /* ─── Column ─────────────────────────────────────────────────── */
+  .column {
+    --c: var(--hue-not);
+    background: linear-gradient(180deg, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0.15) 100%);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 14px 14px;
+    min-height: 200px;
+    position: relative;
+  }
+
+  .column[data-status="not-applied"]      { --c: var(--hue-not); }
+  .column[data-status="applied"]          { --c: var(--hue-applied); }
+  .column[data-status="interview-pending"]{ --c: var(--hue-interview); }
+  .column[data-status="interviewed"]      { --c: var(--hue-interviewed); }
+  .column[data-status="offer-received"]   { --c: var(--hue-offer); }
+  .column[data-status="rejected-closed"]  { --c: var(--hue-rejected); }
+
+  .column-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 6px 14px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .column-head .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow:
+      0 0 0 3px rgba(0,0,0,0.4),
+      0 0 12px var(--c);
+    flex-shrink: 0;
+  }
+
+  .column-head h2 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    flex: 1;
+  }
+
+  .column-head .count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    padding: 2px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 99px;
+    border: 1px solid var(--line);
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 40px;
+  }
+
+  .empty-hint {
+    padding: 18px 12px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    opacity: 0.6;
+  }
+
+  /* ─── Card — the signature element ───────────────────────────── */
+  .card {
+    position: relative;
+    background: linear-gradient(180deg, var(--bg-card-hi) 0%, var(--bg-card) 60%, #1a1928 100%);
+    border: 1px solid var(--line-strong);
+    border-radius: 11px;
+    padding: 14px 14px 14px 18px;
+    cursor: pointer;
+    transition:
+      transform 0.25s var(--ease),
+      box-shadow 0.3s var(--ease),
+      border-color 0.2s var(--ease);
+    /* The 3D effect: ambient + key shadow + far shadow + inner highlight + inner shade */
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.5),
+      0 6px 14px rgba(0,0,0,0.35),
+      0 18px 32px rgba(0,0,0,0.22),
+      inset 0 1px 0 rgba(255,255,255,0.06),
+      inset 0 -1px 0 rgba(0,0,0,0.4);
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* Color strip on the left edge — the visual taxonomy anchor */
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background: linear-gradient(180deg, var(--c) 0%, color-mix(in srgb, var(--c) 70%, black) 100%);
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 12px color-mix(in srgb, var(--c) 60%, transparent);
+  }
+
+  /* Soft inner glow in status color */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 60% at 0% 50%, color-mix(in srgb, var(--c) 8%, transparent) 0%, transparent 60%);
+    pointer-events: none;
+    border-radius: 11px;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--c) 30%, var(--line-strong));
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.5),
+      0 10px 22px rgba(0,0,0,0.4),
+      0 28px 48px rgba(0,0,0,0.28),
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      inset 0 -1px 0 rgba(0,0,0,0.4),
+      0 0 0 1px color-mix(in srgb, var(--c) 20%, transparent);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .card-company {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .card-priority {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hue-interview);
+    filter: drop-shadow(0 0 4px rgba(232, 168, 56, 0.5));
+  }
+
+  .card-role {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  .card-meta .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-meta .meta-item svg {
+    opacity: 0.6;
+  }
+
+  .card-meta a {
+    color: var(--ink-mute);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ink-faint);
+    transition: color 0.15s var(--ease);
+  }
+
+  .card-meta a:hover { color: var(--ink); }
+
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    line-height: 1.5;
+    margin-top: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ─── Modal ──────────────────────────────────────────────────── */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 7, 14, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+    animation: fadeIn 0.2s var(--ease);
+  }
+
+  .modal-backdrop[hidden] { display: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes lift {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal {
+    width: min(560px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, var(--bg-raised) 0%, var(--bg-base) 100%);
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow:
+      0 4px 8px rgba(0,0,0,0.5),
+      0 24px 48px rgba(0,0,0,0.5),
+      0 48px 96px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    animation: lift 0.3s var(--ease);
+  }
+
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+
+  .modal-head h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    font-size: 22px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s var(--ease), color 0.15s var(--ease);
+  }
+
+  .modal-close:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--ink);
+  }
+
+  .field {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--line-strong);
+    border-radius: 9px;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.15s var(--ease), box-shadow 0.2s var(--ease);
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.25);
+  }
+
+  .field textarea {
+    min-height: 110px;
+    resize: vertical;
+    font-family: var(--sans);
+    line-height: 1.5;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: rgba(166, 114, 238, 0.55);
+    box-shadow:
+      inset 0 1px 4px rgba(0,0,0,0.25),
+      0 0 0 3px rgba(166, 114, 238, 0.12);
+  }
+
+  .field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%239a93b3' d='M6 8L0 0h12z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .field-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--line-strong);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: border-color 0.15s var(--ease);
+  }
+
+  .field-check:hover { border-color: var(--line-strong); }
+
+  .field-check input { width: 16px; height: 16px; accent-color: var(--hue-interview); cursor: pointer; }
+
+  .field-check .check-text {
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .field-check .check-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .modal-actions .spacer { flex: 1; }
+
+  .btn-ghost,
+  .btn-danger,
+  .btn-save {
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 9px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s var(--ease);
+    border: 1px solid transparent;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-mute);
+    border-color: var(--line-strong);
+  }
+
+  .btn-ghost:hover { color: var(--ink); background: rgba(255,255,255,0.04); }
+
+  .btn-danger {
+    background: transparent;
+    color: var(--hue-rejected);
+    border-color: rgba(198, 107, 122, 0.3);
+  }
+
+  .btn-danger:hover {
+    background: rgba(198, 107, 122, 0.1);
+    border-color: rgba(198, 107, 122, 0.5);
+  }
+
+  .btn-save {
+    background: linear-gradient(180deg, #6c4fc9 0%, #4f3aa3 100%);
+    color: #fff;
+    border-color: rgba(255,255,255,0.1);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.15),
+      0 2px 6px rgba(0,0,0,0.3),
+      0 8px 20px rgba(108, 79, 201, 0.25);
+  }
+
+  .btn-save:hover {
+    background: linear-gradient(180deg, #7b5dd6 0%, #5b46b3 100%);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.2),
+      0 4px 10px rgba(0,0,0,0.35),
+      0 12px 28px rgba(108, 79, 201, 0.35);
+  }
+
+  .btn-save:active { transform: translateY(0); }
+
+  /* ─── Footer ─────────────────────────────────────────────────── */
+  .page-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .page-footer .link {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ink-faint);
+    padding: 0;
+    margin-left: 18px;
+    transition: color 0.15s var(--ease);
+  }
+
+  .page-footer .link:hover { color: var(--ink-mute); }
+
+  /* ─── Responsive ─────────────────────────────────────────────── */
+  @media (max-width: 880px) {
+    .page-header {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .controls {
+      width: 100%;
+    }
+    .search { width: 100%; flex: 1; }
+    .stats {
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .stat {
+      padding: 6px 16px;
+    }
+    .stat:first-child { padding-left: 0; }
+  }
+
+  @media (max-width: 560px) {
+    .field-row { grid-template-columns: 1fr; }
+    .modal { padding: 22px; }
+    .page-footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.1); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ Header ═══ -->
+  <header class="page-header">
+    <div class="brand">
+      <p class="eyebrow">Application Ledger</p>
+      <h1><span class="roman">A running</span> <em>record</em> of <em>where things stand.</em></h1>
+      <p class="subtitle">Every role, every status, every next move — at a glance.</p>
+    </div>
+
+    <div class="controls">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="search" id="search" placeholder="Search company, role, notes…" autocomplete="off">
+      </div>
+      <button class="btn btn-primary" id="addBtn">
+        <span class="plus">+</span>
+        New application
+      </button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <!-- ═══ Board ═══ -->
+  <main class="board" id="board">
+    <!-- Columns rendered dynamically -->
+  </main>
+
+  <footer class="page-footer">
+    <span>Saved locally to this browser · Last update <span id="lastUpdate">—</span></span>
+    <div>
+      <button class="link" id="exportBtn">Export JSON</button>
+      <button class="link" id="importBtn">Import JSON</button>
+      <button class="link" id="resetBtn">Reset to seed data</button>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══ Modal ═══ -->
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2 id="modalTitle">New application</h2>
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    </div>
+
+    <form id="form">
+      <input type="hidden" name="id">
+
+      <div class="field">
+        <label for="f-company">Company</label>
+        <input id="f-company" name="company" type="text" required placeholder="e.g. Meta">
+      </div>
+
+      <div class="field">
+        <label for="f-role">Role / position</label>
+        <input id="f-role" name="role" type="text" placeholder="e.g. Senior Director, Legal Innovation">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-status">Status</label>
+          <select id="f-status" name="status">
+            <option value="not-applied">Not applied</option>
+            <option value="applied">Applied</option>
+            <option value="interview-pending">Interview pending</option>
+            <option value="interviewed">Interviewed</option>
+            <option value="offer-received">Offer received</option>
+            <option value="rejected-closed">Rejected / closed</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-date">Date (applied / updated)</label>
+          <input id="f-date" name="appliedDate" type="date">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-url">Link to posting / portal</label>
+        <input id="f-url" name="url" type="url" placeholder="https://…">
+      </div>
+
+      <div class="field">
+        <label for="f-desc">Description, notes &amp; next steps</label>
+        <textarea id="f-desc" name="description" placeholder="Job description, contact details, login info, deadlines, anything to remember…"></textarea>
+      </div>
+
+      <label class="field-check">
+        <input type="checkbox" name="priority">
+        <div>
+          <div class="check-text">Mark as priority</div>
+          <span class="check-sub">Deadline-driven · do first</span>
+        </div>
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-danger" id="deleteBtn" hidden>Delete</button>
+        <div class="spacer"></div>
+        <button type="button" class="btn-ghost" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn-save">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<input type="file" id="importFile" accept="application/json" hidden>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   Application Ledger — single-file local job tracker
+   Data lives in localStorage. Export/import via JSON file.
+   ════════════════════════════════════════════════════════════════ */
+
+const STORAGE_KEY = 'wasim_job_tracker_v1';
+
+const STATUSES = [
+  { id: 'not-applied',       label: 'Not applied',       hue: 'var(--hue-not)' },
+  { id: 'applied',           label: 'Applied',           hue: 'var(--hue-applied)' },
+  { id: 'interview-pending', label: 'Interview pending', hue: 'var(--hue-interview)' },
+  { id: 'interviewed',       label: 'Interviewed',       hue: 'var(--hue-interviewed)' },
+  { id: 'offer-received',    label: 'Offer received',    hue: 'var(--hue-offer)' },
+  { id: 'rejected-closed',   label: 'Rejected / closed', hue: 'var(--hue-rejected)' },
+];
+
+/* ─── Seed data — from initial note ──────────────────────────── */
+const SEED = [
+  // SME — Legal Researcher Interview track (all outstanding)
+  { company: 'SME', role: 'Attorney — Legal Researcher Interview', status: 'not-applied',
+    description: 'Outstanding. Part of the SME Legal Researcher Interview track.' },
+  { company: 'SME', role: 'Contract Review Expert — Legal Researcher Interview', status: 'not-applied',
+    description: 'Outstanding. Part of the SME Legal Researcher Interview track.' },
+  { company: 'SME', role: 'Investment and Banking Expert — Legal Researcher Interview', status: 'not-applied',
+    description: 'Outstanding. Part of the SME Legal Researcher Interview track.' },
+  { company: 'SME', role: 'Legal Quality Assurance Lead — Legal Researcher Interview', status: 'not-applied',
+    description: 'Outstanding. Part of the SME Legal Researcher Interview track.' },
+
+  // Data Annotation — starter assessments completed
+  { company: 'Data Annotation', role: 'Law Starter Assessment', status: 'interviewed',
+    description: 'Starter assessment completed (DONE).' },
+  { company: 'Data Annotation', role: 'Finance Starter Assessment', status: 'interviewed',
+    description: 'Starter assessment completed (DONE).' },
+
+  // Micro1 — deadline-driven, priority
+  { company: 'Micro1', role: 'Strategic Project Lead', status: 'not-applied', priority: true,
+    description: 'Deadline-based — do first.' },
+  { company: 'Micro1', role: 'M&A Attorney', status: 'not-applied', priority: true,
+    description: 'Deadline-based — do first.' },
+  { company: 'Micro1', role: 'Funds Attorney', status: 'not-applied', priority: true,
+    description: 'Deadline-based — do first.' },
+
+  // Active applications
+  { company: 'Legora', role: 'Senior Director, Legal Innovation (Corporate Legal)', status: 'applied',
+    appliedDate: '2026-06-26', description: 'Applied 06/26.' },
+  { company: 'Epiq Systems', role: '—', status: 'applied',
+    description: 'Applied. Login via Apple SSO — wasim@resurgam.cc.' },
+
+  // Interview pending
+  { company: 'Google / Wipro', role: '—', status: 'interview-pending',
+    description: 'Applied. Waiting for an interview date.' },
+
+  // Offers / active engagements
+  { company: 'Uber', role: 'AI Solutions — Global Gen AI (Finance Prompt Curation)', status: 'offer-received',
+    description: 'Applied and accepted. Check chat and site daily for new work.' },
+  { company: 'Meta', role: 'Full-time role', status: 'offer-received',
+    description: 'Applied and accepted for full-time role. Waiting on background check and onboarding.' },
+];
+
+/* ─── State ──────────────────────────────────────────────────── */
+let state = {
+  jobs: [],
+  search: '',
+  editingId: null,
+};
+
+/* ─── Persistence ────────────────────────────────────────────── */
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed.jobs)) {
+        state.jobs = parsed.jobs;
+        return;
+      }
+    }
+  } catch (e) { console.warn('Load failed', e); }
+  // First run — seed
+  state.jobs = SEED.map(j => ({
+    id: uid(),
+    company: j.company,
+    role: j.role || '',
+    status: j.status,
+    appliedDate: j.appliedDate || '',
+    url: j.url || '',
+    description: j.description || '',
+    priority: !!j.priority,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  }));
+  save();
+}
+
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ jobs: state.jobs, updatedAt: Date.now() }));
+    document.getElementById('lastUpdate').textContent = new Date().toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  } catch (e) { console.warn('Save failed', e); }
+}
+
+function uid() {
+  return 'j_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+}
+
+/* ─── Render ─────────────────────────────────────────────────── */
+function escapeHtml(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  // Format YYYY-MM-DD as short readable
+  try {
+    const dt = new Date(d + 'T00:00:00');
+    if (isNaN(dt)) return d;
+    return dt.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return d; }
+}
+
+function hostFromUrl(u) {
+  try { return new URL(u).hostname.replace(/^www\./, ''); }
+  catch { return u; }
+}
+
+function matchesSearch(job, q) {
+  if (!q) return true;
+  q = q.toLowerCase();
+  return [job.company, job.role, job.description, job.url]
+    .filter(Boolean).some(v => v.toLowerCase().includes(q));
+}
+
+function render() {
+  const board = document.getElementById('board');
+  board.innerHTML = '';
+
+  const filtered = state.jobs.filter(j => matchesSearch(j, state.search));
+
+  STATUSES.forEach(st => {
+    const col = document.createElement('section');
+    col.className = 'column';
+    col.dataset.status = st.id;
+
+    const inThis = filtered.filter(j => j.status === st.id);
+    // Sort: priority first, then most recently updated
+    inThis.sort((a, b) => {
+      if (!!b.priority - !!a.priority !== 0) return !!b.priority - !!a.priority;
+      return (b.updatedAt || 0) - (a.updatedAt || 0);
+    });
+
+    col.innerHTML = `
+      <header class="column-head">
+        <span class="dot"></span>
+        <h2>${escapeHtml(st.label)}</h2>
+        <span class="count">${inThis.length}</span>
+      </header>
+      <div class="cards"></div>
+    `;
+
+    const cardsEl = col.querySelector('.cards');
+
+    if (inThis.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-hint';
+      empty.textContent = state.search ? 'No matches' : 'Nothing here yet';
+      cardsEl.appendChild(empty);
+    } else {
+      inThis.forEach(job => cardsEl.appendChild(renderCard(job)));
+    }
+
+    board.appendChild(col);
+  });
+
+  renderStats(filtered);
+}
+
+function renderCard(job) {
+  const el = document.createElement('article');
+  el.className = 'card';
+  el.dataset.id = job.id;
+  el.style.setProperty('--c', `var(--hue-${statusHueKey(job.status)})`);
+  el.tabIndex = 0;
+  el.setAttribute('role', 'button');
+  el.setAttribute('aria-label', `Edit ${job.company} — ${job.role}`);
+
+  const dateBit = job.appliedDate
+    ? `<span class="meta-item" title="Date">
+         <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+           <rect x="1.5" y="2.5" width="9" height="8" rx="1.5" stroke="currentColor"/>
+           <path d="M1.5 5h9" stroke="currentColor"/>
+           <path d="M4 1.5v2M8 1.5v2" stroke="currentColor" stroke-linecap="round"/>
+         </svg>
+         ${escapeHtml(fmtDate(job.appliedDate))}
+       </span>`
+    : '';
+
+  const urlBit = job.url
+    ? `<span class="meta-item" title="Link">
+         <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+           <path d="M5 7a2 2 0 0 0 2.83 0l2-2a2 2 0 0 0-2.83-2.83L6 3.17M7 5a2 2 0 0 0-2.83 0l-2 2a2 2 0 0 0 2.83 2.83L6 8.83" stroke="currentColor" stroke-linecap="round"/>
+         </svg>
+         <a href="${escapeHtml(job.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${escapeHtml(hostFromUrl(job.url))}</a>
+       </span>`
+    : '';
+
+  const priorityBit = job.priority
+    ? `<span class="card-priority" title="Priority — deadline based">
+         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+           <path d="M3 1.5v11M3 1.5h7l-1.5 3 1.5 3H3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" fill="currentColor" fill-opacity="0.15"/>
+         </svg>
+       </span>`
+    : '';
+
+  const meta = (dateBit || urlBit) ? `<div class="card-meta">${dateBit}${urlBit}</div>` : '';
+  const desc = job.description
+    ? `<p class="card-desc">${escapeHtml(job.description)}</p>`
+    : '';
+  const role = job.role && job.role !== '—'
+    ? `<p class="card-role">${escapeHtml(job.role)}</p>`
+    : '';
+
+  el.innerHTML = `
+    <header class="card-head">
+      <h3 class="card-company">${escapeHtml(job.company)}</h3>
+      ${priorityBit}
+    </header>
+    ${role}
+    ${desc}
+    ${meta}
+  `;
+
+  el.addEventListener('click', () => openModal(job.id));
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(job.id); }
+  });
+
+  return el;
+}
+
+function statusHueKey(s) {
+  return {
+    'not-applied': 'not',
+    'applied': 'applied',
+    'interview-pending': 'interview',
+    'interviewed': 'interviewed',
+    'offer-received': 'offer',
+    'rejected-closed': 'rejected',
+  }[s] || 'not';
+}
+
+function renderStats(filtered) {
+  const wrap = document.getElementById('stats');
+  const total = filtered.length;
+  const counts = {};
+  STATUSES.forEach(s => counts[s.id] = 0);
+  filtered.forEach(j => { if (counts[j.status] != null) counts[j.status]++; });
+
+  wrap.innerHTML = `
+    <div class="stat">
+      <span class="stat-num">${total}</span>
+      <span class="stat-label">Total tracked</span>
+    </div>
+    ${STATUSES.map(s => `
+      <div class="stat" style="--dot-color: var(--hue-${statusHueKey(s.id)})">
+        <span class="stat-num">${counts[s.id]}</span>
+        <span class="stat-label"><span class="stat-dot"></span>${escapeHtml(s.label)}</span>
+      </div>
+    `).join('')}
+  `;
+}
+
+/* ─── Modal ──────────────────────────────────────────────────── */
+const modal = document.getElementById('modal');
+const form = document.getElementById('form');
+const modalTitle = document.getElementById('modalTitle');
+const deleteBtn = document.getElementById('deleteBtn');
+
+function openModal(id) {
+  state.editingId = id || null;
+  if (id) {
+    const job = state.jobs.find(j => j.id === id);
+    if (!job) return;
+    modalTitle.textContent = 'Edit application';
+    form.elements.id.value = job.id;
+    form.elements.company.value = job.company || '';
+    form.elements.role.value = job.role && job.role !== '—' ? job.role : '';
+    form.elements.status.value = job.status;
+    form.elements.appliedDate.value = job.appliedDate || '';
+    form.elements.url.value = job.url || '';
+    form.elements.description.value = job.description || '';
+    form.elements.priority.checked = !!job.priority;
+    deleteBtn.hidden = false;
+  } else {
+    modalTitle.textContent = 'New application';
+    form.reset();
+    form.elements.id.value = '';
+    form.elements.status.value = 'not-applied';
+    deleteBtn.hidden = true;
+  }
+  modal.hidden = false;
+  setTimeout(() => form.elements.company.focus(), 50);
+}
+
+function closeModal() {
+  modal.hidden = true;
+  state.editingId = null;
+}
+
+modal.addEventListener('click', e => {
+  if (e.target === modal) closeModal();
+});
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !modal.hidden) closeModal();
+  // Cmd/Ctrl+N for new
+  if ((e.metaKey || e.ctrlKey) && e.key === 'n' && !modal.hidden === false) {
+    // skip when typing
+  }
+});
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(form);
+  const id = fd.get('id') || uid();
+  const now = Date.now();
+  const existing = state.jobs.find(j => j.id === id);
+
+  const job = {
+    id,
+    company: (fd.get('company') || '').trim() || 'Untitled',
+    role: (fd.get('role') || '').trim(),
+    status: fd.get('status') || 'not-applied',
+    appliedDate: fd.get('appliedDate') || '',
+    url: (fd.get('url') || '').trim(),
+    description: (fd.get('description') || '').trim(),
+    priority: form.elements.priority.checked,
+    createdAt: existing ? existing.createdAt : now,
+    updatedAt: now,
+  };
+
+  if (existing) {
+    Object.assign(existing, job);
+  } else {
+    state.jobs.push(job);
+  }
+  save();
+  render();
+  closeModal();
+});
+
+deleteBtn.addEventListener('click', () => {
+  const id = form.elements.id.value;
+  if (!id) return;
+  const job = state.jobs.find(j => j.id === id);
+  if (!job) return;
+  if (!confirm(`Delete "${job.company}${job.role && job.role !== '—' ? ' — ' + job.role : ''}"? This can't be undone.`)) return;
+  state.jobs = state.jobs.filter(j => j.id !== id);
+  save();
+  render();
+  closeModal();
+});
+
+/* ─── Wire up controls ───────────────────────────────────────── */
+document.getElementById('addBtn').addEventListener('click', () => openModal());
+
+document.getElementById('search').addEventListener('input', e => {
+  state.search = e.target.value;
+  render();
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const data = { exportedAt: new Date().toISOString(), jobs: state.jobs };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `job-tracker-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('importBtn').addEventListener('click', () => {
+  document.getElementById('importFile').click();
+});
+
+document.getElementById('importFile').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    if (!Array.isArray(parsed.jobs)) throw new Error('Invalid file: missing jobs[]');
+    if (!confirm(`Import ${parsed.jobs.length} entries? This will replace current data.`)) {
+      e.target.value = '';
+      return;
+    }
+    state.jobs = parsed.jobs.map(j => ({
+      id: j.id || uid(),
+      company: j.company || 'Untitled',
+      role: j.role || '',
+      status: j.status || 'not-applied',
+      appliedDate: j.appliedDate || '',
+      url: j.url || '',
+      description: j.description || '',
+      priority: !!j.priority,
+      createdAt: j.createdAt || Date.now(),
+      updatedAt: j.updatedAt || Date.now(),
+    }));
+    save();
+    render();
+  } catch (err) {
+    alert('Import failed: ' + err.message);
+  }
+  e.target.value = '';
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Reset everything back to the original seed list? Your current entries will be lost.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  load();
+  render();
+});
+
+/* ─── Init ───────────────────────────────────────────────────── */
+load();
+render();
+document.getElementById('lastUpdate').textContent = new Date().toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+</script>
+
+</body>
+</html>
