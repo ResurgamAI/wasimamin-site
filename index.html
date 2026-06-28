@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Wasim Amin, J.D., M.B.A. — U.S. Corporate Attorney, Management Consultant, and Legal AI Specialist. 22+ years advising on $7B+ in cross-border transactions; currently designing evaluation frameworks for frontier legal LLMs.">
+<title>Wasim Amin, J.D., M.B.A. — Counsel · Strategy · AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #050810;
+  --bg-deep: #03050b;
+  --bg-card: rgba(14, 20, 36, 0.55);
+  --gold: #c9a961;
+  --gold-bright: #e0c279;
+  --gold-deep: #8b7340;
+  --slate: #7593b8;
+  --text: #e8e4d6;
+  --text-dim: #8e8a7e;
+  --text-faint: #5a584f;
+  --line: rgba(201, 169, 97, 0.18);
+  --line-strong: rgba(201, 169, 97, 0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ----- The 3D canvas sits behind everything ----- */
+#bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Gradient overlay for depth */
+.atmos {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(201, 169, 97, 0.06), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(117, 147, 184, 0.04), transparent 50%),
+    linear-gradient(180deg, rgba(5, 8, 16, 0) 0%, rgba(5, 8, 16, 0.4) 100%);
+}
+
+/* Subtle grain */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ----- Nav ----- */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 22px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  transition: background 0.4s, padding 0.4s;
+}
+
+nav.scrolled {
+  background: rgba(5, 8, 16, 0.7);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  padding: 16px 48px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 19px;
+  letter-spacing: 3px;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.4s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ----- Layout ----- */
+.content {
+  position: relative;
+  z-index: 3;
+}
+
+section {
+  min-height: 100vh;
+  padding: 140px 48px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.section-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ----- Hero ----- */
+.hero {
+  min-height: 100vh;
+  padding: 0 48px;
+  align-items: center;
+}
+
+.hero-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-mark {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  animation: fadeUp 1s 0.3s forwards;
+}
+
+.hero-mark::before {
+  content: '';
+  width: 36px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(64px, 11.5vw, 156px);
+  line-height: 0.9;
+  letter-spacing: -4px;
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.5s forwards;
+}
+
+.hero h1 .em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold-bright);
+}
+
+.hero h1 .amp {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold);
+  margin: 0 0.1em;
+}
+
+.hero-creds {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(20px, 2.4vw, 34px);
+  letter-spacing: 8px;
+  color: var(--gold-bright);
+  margin-bottom: 56px;
+  padding-left: 4px;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.75s forwards;
+}
+
+.hero-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(22px, 2.6vw, 36px);
+  line-height: 1.25;
+  color: var(--text);
+  max-width: 720px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 1.1s 1.0s forwards;
+}
+
+.hero-tagline em {
+  color: var(--gold-bright);
+  font-style: italic;
+}
+
+.hero-sub {
+  font-size: clamp(17px, 1.5vw, 21px);
+  color: var(--text-dim);
+  max-width: 640px;
+  margin-bottom: 56px;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 1s 1.2s forwards;
+}
+
+.hero-sub em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  opacity: 0;
+  animation: fadeUp 1s 1.5s forwards;
+}
+
+.hero-meta div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hero-meta .label { color: var(--text-faint); font-size: 9px; }
+.hero-meta .value { color: var(--gold); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  animation: fadeUp 1s 1.9s forwards, breathe 3s 2.9s infinite;
+}
+
+.scroll-cue::after {
+  content: '';
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  animation: stretch 2.5s infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes stretch {
+  0%, 100% { transform: scaleX(0.5); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+}
+
+/* ----- Section headings ----- */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eyebrow .num {
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 36px;
+  height: 1px;
+  background: var(--gold);
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(40px, 5.5vw, 78px);
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  margin-bottom: 48px;
+  max-width: 900px;
+}
+
+h2 .em {
+  font-style: italic;
+  color: var(--gold-bright);
+  font-weight: 300;
+}
+
+.lead {
+  font-size: clamp(17px, 1.4vw, 21px);
+  color: var(--text-dim);
+  max-width: 720px;
+  margin-bottom: 64px;
+  font-weight: 300;
+}
+
+.lead em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--text);
+}
+
+/* ----- About: metric strip ----- */
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 24px;
+}
+
+.metric {
+  padding: 40px 32px;
+  background: rgba(5, 8, 16, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 4vw, 56px);
+  font-weight: 400;
+  color: var(--gold-bright);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.metric-num .small {
+  font-size: 0.55em;
+  color: var(--gold);
+  margin-left: 4px;
+}
+
+.metric-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ----- Two column ----- */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.two-col aside {
+  position: sticky;
+  top: 140px;
+}
+
+.two-col aside h2 { margin-bottom: 24px; }
+
+.kicker {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--gold);
+  border-left: 1px solid var(--gold);
+  padding-left: 20px;
+  margin: 32px 0;
+  line-height: 1.4;
+}
+
+/* ----- Cards (AI work) ----- */
+.role-card {
+  padding: 48px;
+  background: var(--bg-card);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid var(--line);
+  margin-bottom: 24px;
+  transition: border-color 0.4s, transform 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.role-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 0;
+  background: var(--gold);
+  transition: height 0.6s ease;
+}
+
+.role-card:hover {
+  border-color: var(--line-strong);
+}
+
+.role-card:hover::before {
+  height: 100%;
+}
+
+.role-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.role-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.role-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.role-org {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+}
+
+.role-body {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 780px;
+}
+
+.role-body p + p { margin-top: 14px; }
+
+.role-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  background: rgba(5, 8, 16, 0.5);
+}
+
+/* ----- Timeline ----- */
+.timeline {
+  position: relative;
+  padding-left: 56px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 14px;
+  bottom: 14px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--gold) 0%, var(--line) 60%, transparent 100%);
+}
+
+.t-item {
+  position: relative;
+  padding-bottom: 64px;
+}
+
+.t-item:last-child { padding-bottom: 0; }
+
+.t-item::before {
+  content: '';
+  position: absolute;
+  left: -56px;
+  top: 14px;
+  width: 11px;
+  height: 11px;
+  background: var(--bg);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.t-item:hover::before {
+  background: var(--gold);
+  box-shadow: 0 0 16px var(--gold);
+}
+
+.t-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.t-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.t-org {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--text-dim);
+  margin-bottom: 18px;
+}
+
+.t-body {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 720px;
+}
+
+/* ----- Deals grid ----- */
+.deals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.deal {
+  padding: 40px 32px;
+  background: rgba(5, 8, 16, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+
+.deal:hover {
+  background: rgba(14, 20, 36, 0.7);
+}
+
+.deal-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px;
+  font-weight: 400;
+  color: var(--gold-bright);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.deal-val .small { font-size: 0.5em; color: var(--gold); margin-left: 4px; }
+
+.deal-cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.deal-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+/* ----- Education ----- */
+.edu-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 48px;
+  padding: 36px 0;
+  border-top: 1px solid var(--line);
+}
+
+.edu-row:last-child { border-bottom: 1px solid var(--line); }
+
+.edu-school {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.edu-loc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+.edu-degree {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 19px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.edu-detail {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+/* ----- Publications ----- */
+.pubs {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.pub {
+  padding: 28px 32px;
+  background: rgba(5, 8, 16, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 32px;
+  align-items: baseline;
+  transition: background 0.3s;
+}
+
+.pub:hover { background: rgba(14, 20, 36, 0.7); }
+
+.pub-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+.pub-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.pub-venue {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+/* ----- CTA / contact ----- */
+.cta-section {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+.cta-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 80px 64px;
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  position: relative;
+}
+
+.cta-inner::before, .cta-inner::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--gold);
+}
+
+.cta-inner::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.cta-inner::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+.cta-inner h2 { margin-bottom: 24px; }
+
+.cta-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  margin-top: 56px;
+  padding-top: 56px;
+  border-top: 1px solid var(--line);
+}
+
+.cta-meta div { display: flex; flex-direction: column; gap: 6px; }
+
+.cta-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.cta-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--text);
+}
+
+.cta-val a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.cta-val a:hover { border-bottom-color: var(--gold); }
+
+.btn-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 36px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.btn::after {
+  content: '→';
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  transition: transform 0.3s;
+}
+
+.btn:hover {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.btn:hover::after { transform: translateX(4px); }
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
+
+/* ----- Footer ----- */
+footer {
+  padding: 48px 48px 40px;
+  border-top: 1px solid var(--line);
+  position: relative;
+  z-index: 3;
+  background: rgba(3, 5, 11, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+.foot-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.foot-inner a {
+  color: var(--text-dim);
+  text-decoration: none;
+  margin-left: 24px;
+}
+
+.foot-inner a:hover { color: var(--gold); }
+
+/* ----- Reveal on scroll ----- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal.delay-1 { transition-delay: 0.1s; }
+.reveal.delay-2 { transition-delay: 0.2s; }
+.reveal.delay-3 { transition-delay: 0.3s; }
+
+/* ----- Progress bar ----- */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: var(--gold);
+  z-index: 100;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ----- Mobile ----- */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  section { padding: 100px 24px; }
+  .hero { padding: 0 24px; }
+  .scroll-cue { left: 24px; bottom: 32px; }
+  .two-col { grid-template-columns: 1fr; gap: 48px; }
+  .two-col aside { position: static; }
+  .role-card { padding: 32px 24px; }
+  .timeline { padding-left: 32px; }
+  .t-item::before { left: -32px; }
+  .pub { grid-template-columns: 1fr; gap: 8px; padding: 24px; }
+  .pub-venue { font-size: 9px; }
+  .cta-inner { padding: 48px 28px; }
+  .edu-row { grid-template-columns: 1fr; gap: 12px; }
+  .deal { padding: 32px 24px; }
+}
+
+/* Selection */
+::selection { background: var(--gold); color: var(--bg); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--gold-deep); }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+<div class="atmos"></div>
+<div class="grain"></div>
+<div class="progress" id="progress"></div>
+
+<nav id="nav">
+  <a href="#top" class="brand">WASIM&nbsp;AMIN</a>
+  <ul class="nav-links">
+    <li><a href="#practice">Practice</a></li>
+    <li><a href="#ai">AI Work</a></li>
+    <li><a href="#career">Career</a></li>
+    <li><a href="#transactions">Transactions</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main class="content" id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-mark">Counsel · Strategy · AI</div>
+      <h1>Wasim Amin</h1>
+      <div class="hero-creds">J.D., M.B.A.</div>
+      <p class="hero-tagline">
+        At the intersection of <em>law</em>, <em>strategy</em>, and <em>the model</em>.
+      </p>
+      <p class="hero-sub">
+        A U.S. corporate attorney, management consultant, and frontier-AI specialist with twenty-two years of cross-border practice, currently designing the <em>evaluation frameworks</em> that shape frontier legal language models for a top-three AI laboratory. The rarity is in the seam between the three.
+      </p>
+      <div class="hero-meta">
+        <div>
+          <span class="label">Transactions</span>
+          <span class="value">$7B+ advised</span>
+        </div>
+        <div>
+          <span class="label">Disciplines</span>
+          <span class="value">Law · Strategy · AI</span>
+        </div>
+        <div>
+          <span class="label">Languages</span>
+          <span class="value">EN · AR · FR</span>
+        </div>
+        <div>
+          <span class="label">Engagements</span>
+          <span class="value">Selectively open</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue">Scroll to begin</div>
+  </section>
+
+  <!-- ABOUT / PRACTICE -->
+  <section id="practice">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">01</span> &nbsp;&nbsp;The Practice</div>
+      <h2 class="reveal">A practice built at the seam of <span class="em">three disciplines</span> — corporate law, management consulting, and machine learning — none of which forgive imprecision.</h2>
+      <p class="lead reveal delay-1">Twenty-two years of M&amp;A, private equity, venture capital, U.S.–MENA structured finance, and strategic business advisory. A J.D. <em>magna cum laude</em> in the top 1% of class. An M.B.A. <em>summa cum laude</em>. A Google Cloud Professional Cloud Architect certification and AI credentials from Harvard and Babson. The work spans all three — and so does the standard.</p>
+      <div class="metric-strip reveal delay-2">
+        <div class="metric">
+          <div class="metric-num">22<span class="small">yrs</span></div>
+          <div class="metric-label">Of practice</div>
+        </div>
+        <div class="metric">
+          <div class="metric-num">$7B<span class="small">+</span></div>
+          <div class="metric-label">In transactions advised</div>
+        </div>
+        <div class="metric">
+          <div class="metric-num">100<span class="small">+</span></div>
+          <div class="metric-label">Portfolio companies overseen</div>
+        </div>
+        <div class="metric">
+          <div class="metric-num">20<span class="small">+</span></div>
+          <div class="metric-label">Peer-reviewed publications</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI WORK -->
+  <section id="ai">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">02</span> &nbsp;&nbsp;Frontier Legal AI</div>
+      <h2 class="reveal">Designing the <span class="em">evaluations</span> that frontier models will be measured against.</h2>
+      <p class="lead reveal delay-1">Contracted through Mercor to a top-three AI laboratory, and serving as a team lead at Micro1, the work is in shaping how the next generation of legal language models reasons, cites, and is held accountable.</p>
+
+      <div class="role-card reveal">
+        <div class="role-head">
+          <div>
+            <div class="role-title">Team Lead · Legal AI Modeling &amp; Evaluation Specialist</div>
+            <div class="role-org">Mercor Intelligence — contracted to a top-three AI laboratory</div>
+          </div>
+          <div class="role-period">2025 — Present</div>
+        </div>
+        <div class="role-body">
+          <p>Architect complex, multi-layered legal evaluation frameworks simulating real-world corporate transactions — M&amp;A due diligence, IPO readiness assessments, data breach response, and cross-jurisdictional regulatory compliance under GDPR, LGPD, PDPA, and DORA.</p>
+          <p>Design multi-dimensional scoring rubrics and golden responses for RLHF and SFT pipelines, calibrated to produce 5–10% exemplary performance rates among frontier models. Construct interconnected corporate document ecosystems with embedded governance issues and red-herring document sets, stress-testing AI reasoning, statutory interpretation, and doctrinal analysis.</p>
+        </div>
+        <div class="role-tags">
+          <span class="tag">ICON-R Framework</span>
+          <span class="tag">RLHF · SFT</span>
+          <span class="tag">Rubric Design</span>
+          <span class="tag">Red-Teaming</span>
+          <span class="tag">Cross-Jurisdictional</span>
+        </div>
+      </div>
+
+      <div class="role-card reveal delay-1">
+        <div class="role-head">
+          <div>
+            <div class="role-title">Team Lead · AI Legal Subject Matter Expert</div>
+            <div class="role-org">Micro1 (Micro AI)</div>
+          </div>
+          <div class="role-period">2025</div>
+        </div>
+        <div class="role-body">
+          <p>Domain expert for a leading AI human-data platform, providing specialized legal knowledge for model training, fine-tuning, and evaluation across corporate law, regulatory compliance, and cross-border transactions.</p>
+          <p>Designed prompts covering doctrinal analysis, statutory interpretation, regulatory compliance, and complex M&amp;A scenarios; reviewed AI-generated legal outputs for accuracy and reasoning quality against the rigor expected by top-tier law firms.</p>
+        </div>
+        <div class="role-tags">
+          <span class="tag">SME · Legal</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Doctrinal Analysis</span>
+          <span class="tag">Training Data Design</span>
+        </div>
+      </div>
+
+      <div class="role-card reveal delay-2">
+        <div class="role-head">
+          <div>
+            <div class="role-title">Founder · Resurgam.AI</div>
+            <div class="role-org">AI consulting across finance, healthcare, retail, and professional services</div>
+          </div>
+          <div class="role-period">2022 — Present</div>
+        </div>
+        <div class="role-body">
+          <p>End-to-end AI consulting delivering adoption roadmaps that have reduced client operational costs by 15–25%. Deploys LLM, RAG, and automation workflows that accelerate client processes by 40–60%. Builds governance frameworks aligned to GDPR, HIPAA, and industry-specific standards.</p>
+        </div>
+        <div class="role-tags">
+          <span class="tag">LLM · RAG</span>
+          <span class="tag">AI Governance</span>
+          <span class="tag">GDPR · HIPAA</span>
+          <span class="tag">Strategy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREER TIMELINE -->
+  <section id="career">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">03</span> &nbsp;&nbsp;The Career</div>
+      <h2 class="reveal">Two decades of <span class="em">cross-border</span> corporate practice — from BigLaw rotation to outside general counsel at a billion-dollar venture firm.</h2>
+
+      <div class="timeline" style="margin-top: 80px;">
+        <div class="t-item reveal">
+          <div class="t-period">2008 — Present</div>
+          <div class="t-title">Founder · Counsel &amp; Strategic Advisor</div>
+          <div class="t-org">Amin Consulting, LLC · Boston / New York</div>
+          <div class="t-body">Founded and scaled a corporate law and management consulting practice serving startups to multinationals. Led legal representation on M&amp;A transactions collectively valued at $250M+. Structured cross-border deals between the U.S. and MENA region (Saudi Arabia, UAE, Egypt) totaling $1.5B in transaction value. Negotiated 30+ debt and equity investments between founders and venture capital firms valued at $800M.</div>
+        </div>
+        <div class="t-item reveal">
+          <div class="t-period">2015 — 2020</div>
+          <div class="t-title">Outside General Counsel</div>
+          <div class="t-org">HOF Capital · New York</div>
+          <div class="t-body">Served as outside general counsel for a $1.2B AUM venture capital firm, providing strategic legal oversight for 100+ portfolio companies across AI, machine learning, Web3, crypto, renewable energy, and fintech. Managed legal processes, due diligence, and post-investment integration for 40+ acquisitions. Established and administered multiple investment funds and funds of funds.</div>
+        </div>
+        <div class="t-item reveal">
+          <div class="t-period">2020 — Present</div>
+          <div class="t-title">Chairman, Board of Directors</div>
+          <div class="t-org">Partakers, Inc. — 501(c)(3) Nonprofit</div>
+          <div class="t-body">Led a criminal justice reform organization to a 2% recidivism rate against a national average of approximately 44%. Established cross-institutional degree-granting partnerships with Tufts, Emerson, Boston College, BU, and Brandeis for incarcerated individuals.</div>
+        </div>
+        <div class="t-item reveal">
+          <div class="t-period">2010 — 2015</div>
+          <div class="t-title">Senior Associate Attorney</div>
+          <div class="t-org">DH Law LLP · Boston</div>
+          <div class="t-body">Guided 45+ tech startups through formation and investment rounds, securing $98M in capital. Represented buyers and sellers in 150+ residential and commercial real estate transactions totaling $450M. Secured 128+ business immigration visas (H-1B, E-1/E-2, L-1A/B, O, EB-5), achieving USCIS EB-5 certification for multiple Regional Centers and driving $490M in foreign investment.</div>
+        </div>
+        <div class="t-item reveal">
+          <div class="t-period">2010</div>
+          <div class="t-title">Summer Legal Associate</div>
+          <div class="t-org">WilmerHale LLP · New York</div>
+          <div class="t-body">Rotated through corporate transactions, bankruptcy and financial restructuring, government regulation, intellectual property, securities litigation, and labor and employment practice groups.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSACTIONS -->
+  <section id="transactions">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">04</span> &nbsp;&nbsp;Notable Transactions</div>
+      <h2 class="reveal">A representative slate. Names withheld where <span class="em">discretion</span> requires.</h2>
+      <p class="lead reveal delay-1">Cross-border M&amp;A, venture investment, sovereign procurement, and structured finance — across jurisdictions in the U.S., GCC, EMEA, and Asia.</p>
+
+      <div class="deals reveal delay-2">
+        <div class="deal">
+          <div class="deal-cat">VC Oversight</div>
+          <div class="deal-val">$4.2B<span class="small"> AUM</span></div>
+          <div class="deal-desc">Outside General Counsel for venture capital firm overseeing 100+ portfolio companies across AI, ML, Web3, crypto, renewable energy, and fintech.</div>
+        </div>
+        <div class="deal">
+          <div class="deal-cat">Cross-Border Investment</div>
+          <div class="deal-val">$300M</div>
+          <div class="deal-desc">Structured and negotiated a multi-tiered investment in a global telecommunications operator on behalf of a group of UHNW investors.</div>
+        </div>
+        <div class="deal">
+          <div class="deal-cat">Sovereign Project</div>
+          <div class="deal-val">$100M</div>
+          <div class="deal-desc">Led a public infrastructure project in Saudi Arabia — securing U.S. suppliers, structuring procurement, and overseeing full implementation.</div>
+        </div>
+        <div class="deal">
+          <div class="deal-cat">Fortune 500 Procurement</div>
+          <div class="deal-val">$35M</div>
+          <div class="deal-desc">Represented Thermo Fisher Scientific in a Saudi government procurement project involving construction and furnishing of medical and educational facilities.</div>
+        </div>
+        <div class="deal">
+          <div class="deal-cat">Real Estate · Private Wealth</div>
+          <div class="deal-val">$80M<span class="small">+</span></div>
+          <div class="deal-desc">Structured the acquisition of New York real estate for a member of the Saudi Royal Family, employing offshore trust structures for tax optimization.</div>
+        </div>
+        <div class="deal">
+          <div class="deal-cat">EB-5 Regional Center</div>
+          <div class="deal-val">$100M</div>
+          <div class="deal-desc">Created an EB-5 Regional Center in the Northeast U.S., raising capital for urban redevelopment with USCIS certification.</div>
+        </div>
+        <div class="deal">
+          <div class="deal-cat">Education Sector M&amp;A</div>
+          <div class="deal-val">$34M</div>
+          <div class="deal-desc">Represented a Chinese conglomerate in the acquisition of U.S.-based ESL institutions, securing DHS approval for SEVP certification.</div>
+        </div>
+        <div class="deal">
+          <div class="deal-cat">Fraud Recovery</div>
+          <div class="deal-val">$24M<span class="small">+</span></div>
+          <div class="deal-desc">Directed a comprehensive fraud investigation, recovering capital for a Libyan businessman defrauded in an international import / export scheme.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">05</span> &nbsp;&nbsp;Education &amp; Credentials</div>
+      <h2 class="reveal">Trained at the <span class="em">intersection</span>.</h2>
+
+      <div style="margin-top: 64px;">
+        <div class="edu-row reveal">
+          <div>
+            <div class="edu-school">Harvard University</div>
+            <div class="edu-loc">Cambridge, MA · 2024–2025</div>
+          </div>
+          <div>
+            <div class="edu-degree">Professional Certificate, AI Applications in Consulting &amp; Legal Professions</div>
+            <div class="edu-detail">AI strategy, governance, deployment; machine learning, NLP; algorithmic problem-solving in Python, C, SQL, HTML, JavaScript.</div>
+          </div>
+        </div>
+        <div class="edu-row reveal">
+          <div>
+            <div class="edu-school">Babson Graduate Business School</div>
+            <div class="edu-loc">Boston, MA · 2025</div>
+          </div>
+          <div>
+            <div class="edu-degree">Professional Certificate, Mastering Generative AI for Business Leaders</div>
+          </div>
+        </div>
+        <div class="edu-row reveal">
+          <div>
+            <div class="edu-school">New England Law | Boston</div>
+            <div class="edu-loc">Boston, MA · 2009–2012</div>
+          </div>
+          <div>
+            <div class="edu-degree">Juris Doctor — <em>Magna Cum Laude</em>, Top 1%, GPA 3.86 / 4.00</div>
+            <div class="edu-detail">Trustee Academic Scholarship (highest GPA). Senior Editor, New England Law Review. CALI Awards in Corporate Finance, Securities Regulation, Law of Entrepreneurship, and Law &amp; Ethics of Lawyering.</div>
+          </div>
+        </div>
+        <div class="edu-row reveal">
+          <div>
+            <div class="edu-school">Husson University</div>
+            <div class="edu-loc">Bangor, ME · 2006–2008</div>
+          </div>
+          <div>
+            <div class="edu-degree">M.B.A. — <em>Summa Cum Laude</em>, GPA 3.68 / 4.00</div>
+            <div class="edu-detail">Graduate Business Student of the Year (highest GPA).</div>
+          </div>
+        </div>
+        <div class="edu-row reveal">
+          <div>
+            <div class="edu-school">Husson University</div>
+            <div class="edu-loc">Bangor, ME · 2002–2006</div>
+          </div>
+          <div>
+            <div class="edu-degree">Dual B.S. in Finance and Business Management</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kicker reveal" style="margin-top: 64px;">
+        Google Cloud Certified — Professional Cloud Architect (Data, Machine Learning &amp; AI). Licensed U.S. Attorney.
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">06</span> &nbsp;&nbsp;Selected Publications</div>
+      <h2 class="reveal">A two-decade record of <span class="em">written authority</span> across Islamic finance, cross-border M&amp;A, and EB-5 capital structures.</h2>
+
+      <div class="pubs reveal delay-1" style="margin-top: 48px;">
+        <div class="pub">
+          <div class="pub-year">2016</div>
+          <div class="pub-title">Doing Business 2016: Saudi Arabian Commercial Laws and Regulations</div>
+          <div class="pub-venue">World Bank Group · SME</div>
+        </div>
+        <div class="pub">
+          <div class="pub-year">2023</div>
+          <div class="pub-title">Due Diligence in Islamic Finance Instruments — Principles and Avoiding Common Pitfalls</div>
+          <div class="pub-venue">Peer-Reviewed Journal</div>
+        </div>
+        <div class="pub">
+          <div class="pub-year">2022</div>
+          <div class="pub-title">Regulation in the Islamic Finance Industry: A Comparative Study of Saudi Arabia and Malaysia</div>
+          <div class="pub-venue">Peer-Reviewed Journal</div>
+        </div>
+        <div class="pub">
+          <div class="pub-year">2019</div>
+          <div class="pub-title">EB-5 Regional Centers in Project Finance: Using EB-5 Capital in Lieu of Mezzanine Financing</div>
+          <div class="pub-venue">Project Finance Review</div>
+        </div>
+        <div class="pub">
+          <div class="pub-year">2016</div>
+          <div class="pub-title">A Survey of the Schizophrenic State of M&amp;A Law: Anti-Assignment Clauses in Mergers &amp; Acquisitions</div>
+          <div class="pub-venue">M&amp;A Law Review</div>
+        </div>
+        <div class="pub">
+          <div class="pub-year">2013–2020</div>
+          <div class="pub-title">Multiple publications on cross-border transactions, Saudi business regulations, and Islamic finance</div>
+          <div class="pub-venue">ABA International Journal</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 80px;">
+        <div class="eyebrow reveal">Affiliations</div>
+        <div class="role-body reveal delay-1" style="font-size: 16px;">
+          <p>Chairman, Middle East Division, American Bar Association (2013–2020) · Vice-Chairman, International Commercial Transactions Committee, ABA (2013–2018) · Chairman, Islamic Finance Committee, International Law Division, ABA (2013–2019) · Regent Board Member, Immigration &amp; Naturalization Division, ABA (2020–2022) · Global Independent Director, Target International Schools (2014–2019).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="cta-section">
+    <div class="cta-inner">
+      <div class="eyebrow reveal"><span class="num">07</span> &nbsp;&nbsp;Engagement</div>
+      <h2 class="reveal">Selectively open to <span class="em">counsel</span>, <span class="em">advisory</span>, and frontier AI evaluation work.</h2>
+      <p class="lead reveal delay-1">For board, general counsel, transactional, or frontier-AI engagements, the most direct route is email. Replies come from Wasim personally — typically within a business day.</p>
+
+      <div class="btn-row reveal delay-2">
+        <a href="mailto:wasim@resurgam.cc" class="btn btn-primary">Begin a Conversation</a>
+        <a href="000_Wasim_Amin_Resume_2026.pdf" download class="btn">Download Resume</a>
+        <a href="https://linkedin.com/in/aminwasim" target="_blank" rel="noopener" class="btn">LinkedIn Profile</a>
+      </div>
+
+      <div class="cta-meta">
+        <div>
+          <div class="cta-label">Email</div>
+          <div class="cta-val"><a href="mailto:wasim@resurgam.cc">wasim@resurgam.cc</a></div>
+        </div>
+        <div>
+          <div class="cta-label">Direct</div>
+          <div class="cta-val">+1 (781) 300-3355</div>
+        </div>
+        <div>
+          <div class="cta-label">Based In</div>
+          <div class="cta-val">New York City</div>
+        </div>
+        <div>
+          <div class="cta-label">Admitted</div>
+          <div class="cta-val">U.S. Attorney</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div>© 2026 Wasim M. Amin · All rights reserved</div>
+    <div>
+      <a href="mailto:wasim@resurgam.cc">Email</a>
+      <a href="https://linkedin.com/in/aminwasim" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="000_Wasim_Amin_Resume_2026.pdf" download>Resume</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== THREE.JS SCENE ===== -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.158.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+// ---------- Detect reduced motion ----------
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = window.innerWidth < 768;
+
+// ---------- Scene setup ----------
+const canvas = document.getElementById('bg');
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: !isMobile,
+  alpha: true,
+  powerPreference: 'high-performance'
+});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000, 0);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x050810, 0.018);
+
+const camera = new THREE.PerspectiveCamera(
+  55, window.innerWidth / window.innerHeight, 0.1, 200
+);
+camera.position.set(0, 0, 16);
+
+// ---------- Lighting ----------
+const ambient = new THREE.AmbientLight(0x1a2440, 0.4);
+scene.add(ambient);
+
+const keyLight = new THREE.DirectionalLight(0xe8c971, 1.4);
+keyLight.position.set(8, 6, 8);
+scene.add(keyLight);
+
+const fillLight = new THREE.PointLight(0x4a7fc1, 1.6, 60);
+fillLight.position.set(-8, -4, 6);
+scene.add(fillLight);
+
+const rimLight = new THREE.PointLight(0xc9a961, 1.0, 40);
+rimLight.position.set(0, 8, -10);
+scene.add(rimLight);
+
+// ---------- Central crystalline form ----------
+const coreGroup = new THREE.Group();
+scene.add(coreGroup);
+
+// Inner solid - polished icosahedron in antique gold
+const coreGeo = new THREE.IcosahedronGeometry(2.4, 0);
+const coreMat = new THREE.MeshPhysicalMaterial({
+  color: 0xc9a961,
+  metalness: 0.85,
+  roughness: 0.18,
+  clearcoat: 1.0,
+  clearcoatRoughness: 0.08,
+  reflectivity: 0.9,
+  envMapIntensity: 1.2,
+  transparent: true,
+  opacity: 0.92
+});
+const core = new THREE.Mesh(coreGeo, coreMat);
+coreGroup.add(core);
+
+// Outer wireframe shell - the "due diligence" layer
+const shellGeo = new THREE.IcosahedronGeometry(2.95, 1);
+const shellMat = new THREE.MeshBasicMaterial({
+  color: 0xc9a961,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.16
+});
+const shell = new THREE.Mesh(shellGeo, shellMat);
+coreGroup.add(shell);
+
+// Faint outermost glow shell
+const auraGeo = new THREE.IcosahedronGeometry(3.6, 2);
+const auraMat = new THREE.MeshBasicMaterial({
+  color: 0x7593b8,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.06
+});
+const aura = new THREE.Mesh(auraGeo, auraMat);
+coreGroup.add(aura);
+
+// ---------- Secondary form: torus knot that emerges later ----------
+const knotGeo = new THREE.TorusKnotGeometry(1.4, 0.18, 200, 24, 2, 3);
+const knotMat = new THREE.MeshPhysicalMaterial({
+  color: 0xe0c279,
+  metalness: 0.9,
+  roughness: 0.25,
+  clearcoat: 0.8,
+  transparent: true,
+  opacity: 0
+});
+const knot = new THREE.Mesh(knotGeo, knotMat);
+knot.position.set(6, -2, -4);
+scene.add(knot);
+
+// ---------- Particle field with custom shader ----------
+const particleCount = isMobile ? 1400 : 2800;
+const positions = new Float32Array(particleCount * 3);
+const colors = new Float32Array(particleCount * 3);
+const sizes = new Float32Array(particleCount);
+const speeds = new Float32Array(particleCount);
+const phases = new Float32Array(particleCount);
+
+const goldColor = new THREE.Color(0xc9a961);
+const blueColor = new THREE.Color(0x4a7fc1);
+const warmColor = new THREE.Color(0xe0c279);
+
+for (let i = 0; i < particleCount; i++) {
+  // Distribute in a flattened ellipsoid for cinematic feel
+  const r = 6 + Math.pow(Math.random(), 0.6) * 36;
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+
+  positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta) * 1.2;
+  positions[i * 3 + 1] = r * Math.cos(phi) * 0.7;
+  positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta) * 1.2 - 6;
+
+  // Mostly gold, occasionally cool blue, occasionally warm bright
+  const roll = Math.random();
+  let c;
+  if (roll < 0.7)        c = goldColor.clone().multiplyScalar(0.6 + Math.random() * 0.5);
+  else if (roll < 0.92)  c = blueColor.clone().multiplyScalar(0.5 + Math.random() * 0.4);
+  else                   c = warmColor.clone();
+
+  colors[i * 3]     = c.r;
+  colors[i * 3 + 1] = c.g;
+  colors[i * 3 + 2] = c.b;
+
+  sizes[i]  = 0.5 + Math.random() * 2.5;
+  speeds[i] = 0.3 + Math.random() * 0.7;
+  phases[i] = Math.random() * Math.PI * 2;
+}
+
+const particleGeo = new THREE.BufferGeometry();
+particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+particleGeo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+particleGeo.setAttribute('aSize',    new THREE.BufferAttribute(sizes, 1));
+particleGeo.setAttribute('aSpeed',   new THREE.BufferAttribute(speeds, 1));
+particleGeo.setAttribute('aPhase',   new THREE.BufferAttribute(phases, 1));
+
+// Custom shader material for nice glowing particles
+const particleMat = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime:  { value: 0 },
+    uPixelRatio: { value: renderer.getPixelRatio() }
+  },
+  vertexShader: `
+    attribute float aSize;
+    attribute float aSpeed;
+    attribute float aPhase;
+    varying vec3 vColor;
+    varying float vAlpha;
+    uniform float uTime;
+    uniform float uPixelRatio;
+
+    void main() {
+      vColor = color;
+      vec3 pos = position;
+
+      // Gentle drift
+      pos.y += sin(uTime * aSpeed * 0.4 + aPhase) * 0.3;
+      pos.x += cos(uTime * aSpeed * 0.3 + aPhase * 1.3) * 0.2;
+
+      vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+
+      // Size attenuation with subtle pulse
+      float pulse = 0.7 + 0.3 * sin(uTime * aSpeed + aPhase);
+      gl_PointSize = aSize * pulse * uPixelRatio * (60.0 / -mvPosition.z);
+
+      // Fade with distance from camera
+      vAlpha = smoothstep(60.0, 15.0, length(mvPosition.xyz));
+
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  `,
+  fragmentShader: `
+    varying vec3 vColor;
+    varying float vAlpha;
+
+    void main() {
+      // Soft circular falloff with glow halo
+      vec2 c = gl_PointCoord - 0.5;
+      float d = length(c);
+
+      float core = smoothstep(0.5, 0.0, d);
+      float halo = smoothstep(0.5, 0.25, d) * 0.4;
+
+      float alpha = (core * 0.9 + halo) * vAlpha;
+      if (alpha < 0.01) discard;
+
+      gl_FragColor = vec4(vColor * (core + halo * 0.5), alpha);
+    }
+  `,
+  transparent: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
+  vertexColors: true
+});
+
+const particles = new THREE.Points(particleGeo, particleMat);
+scene.add(particles);
+
+// ---------- Camera waypoint path ----------
+// Map scroll progress (0-1) to camera positions and look-at targets
+const waypoints = [
+  { pos: new THREE.Vector3( 0,    0,   16), look: new THREE.Vector3( 0, 0,  0) },  // 0 hero
+  { pos: new THREE.Vector3( 3,    2,   13), look: new THREE.Vector3( 0, 1,  0) },  // 1 practice
+  { pos: new THREE.Vector3(-4,    4,   10), look: new THREE.Vector3( 0, 3, -2) },  // 2 ai work
+  { pos: new THREE.Vector3( 5,    7,    9), look: new THREE.Vector3( 1, 6, -3) },  // 3 career
+  { pos: new THREE.Vector3(-3,   10,   12), look: new THREE.Vector3( 0, 9, -2) },  // 4 transactions
+  { pos: new THREE.Vector3( 4,   13,    8), look: new THREE.Vector3( 0, 12, 0) },  // 5 education
+  { pos: new THREE.Vector3(-2,   16,   10), look: new THREE.Vector3( 0, 15, 0) },  // 6 publications
+  { pos: new THREE.Vector3( 0,   19,   14), look: new THREE.Vector3( 0, 18, 0) }   // 7 contact
+];
+
+function getCameraAtProgress(t) {
+  // t in [0,1]
+  const segs = waypoints.length - 1;
+  const s = Math.min(t * segs, segs - 0.0001);
+  const i = Math.floor(s);
+  const f = s - i;
+  // Smoothstep easing
+  const e = f * f * (3 - 2 * f);
+  const a = waypoints[i];
+  const b = waypoints[i + 1];
+  return {
+    pos:  new THREE.Vector3().lerpVectors(a.pos, b.pos, e),
+    look: new THREE.Vector3().lerpVectors(a.look, b.look, e)
+  };
+}
+
+// ---------- Scroll + mouse state ----------
+let scrollProgress = 0;
+let targetScrollProgress = 0;
+let mouseX = 0, mouseY = 0;
+let targetMouseX = 0, targetMouseY = 0;
+
+function onScroll() {
+  const total = document.body.scrollHeight - window.innerHeight;
+  targetScrollProgress = total > 0 ? window.scrollY / total : 0;
+
+  // Nav style
+  const nav = document.getElementById('nav');
+  if (window.scrollY > 60) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+
+  // Progress bar
+  document.getElementById('progress').style.width = (targetScrollProgress * 100) + '%';
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+if (!prefersReduced && !isMobile) {
+  window.addEventListener('pointermove', (e) => {
+    targetMouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
+    targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+}
+
+// ---------- Resize ----------
+function onResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  particleMat.uniforms.uPixelRatio.value = renderer.getPixelRatio();
+}
+window.addEventListener('resize', onResize);
+
+// ---------- Animation loop ----------
+const clock = new THREE.Clock();
+const tempVec = new THREE.Vector3();
+
+function tick() {
+  const t = clock.getElapsedTime();
+
+  // Lerp scroll
+  scrollProgress += (targetScrollProgress - scrollProgress) * 0.06;
+  mouseX += (targetMouseX - mouseX) * 0.05;
+  mouseY += (targetMouseY - mouseY) * 0.05;
+
+  // Update shader time
+  particleMat.uniforms.uTime.value = t;
+
+  // Camera path from waypoints
+  const cam = getCameraAtProgress(scrollProgress);
+  // Add mouse parallax to camera position
+  cam.pos.x += mouseX * 1.4;
+  cam.pos.y += -mouseY * 0.8;
+  camera.position.lerp(cam.pos, 0.08);
+
+  // Smooth look-at
+  tempVec.copy(cam.look);
+  // Slight target offset by mouse for liveliness
+  tempVec.x += mouseX * 0.3;
+  tempVec.y += -mouseY * 0.2;
+  camera.lookAt(tempVec);
+
+  // Core: continuous slow rotation
+  core.rotation.x = t * 0.12;
+  core.rotation.y = t * 0.18;
+  shell.rotation.x = -t * 0.08;
+  shell.rotation.y = -t * 0.11;
+  shell.rotation.z = t * 0.05;
+  aura.rotation.y = t * 0.06;
+  aura.rotation.x = -t * 0.04;
+
+  // Core group moves vertically with scroll so it stays in frame
+  coreGroup.position.y = scrollProgress * 18;
+  // Subtle scale pulse
+  const pulse = 1 + Math.sin(t * 0.7) * 0.03;
+  coreGroup.scale.setScalar(pulse);
+
+  // Knot fades in around mid-scroll, drifts
+  knot.position.y = scrollProgress * 18 - 3 + Math.sin(t * 0.3) * 0.4;
+  knot.position.x = 6 + Math.cos(t * 0.2) * 0.6;
+  knot.rotation.x = t * 0.3;
+  knot.rotation.y = t * 0.2;
+  // Fade based on scroll - appears mid-page
+  knotMat.opacity = THREE.MathUtils.smoothstep(scrollProgress, 0.25, 0.5) * (1 - THREE.MathUtils.smoothstep(scrollProgress, 0.75, 0.95)) * 0.85;
+
+  // Particle field slow rotation
+  particles.rotation.y = t * 0.015;
+  particles.rotation.x = scrollProgress * 0.15;
+
+  // Lights pulse subtly
+  fillLight.intensity = 1.4 + Math.sin(t * 0.4) * 0.3;
+  rimLight.intensity = 0.9 + Math.cos(t * 0.3) * 0.2;
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+tick();
+
+// ---------- Intersection observer for content reveal ----------
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+</script>
+
+</body>
+</html>
