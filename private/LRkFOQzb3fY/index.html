@@ -34,6 +34,7 @@
     --hue-interviewed:#a672ee;  /* amethyst — in progress */
     --hue-offer:      #34c489;  /* emerald — positive */
     --hue-rejected:   #c66b7a;  /* dusty rose — closed */
+    --hue-engaged:    #2fb0b8;  /* teal — active engagement */
 
     /* Type scale */
     --serif:  'Fraunces', Georgia, serif;
@@ -307,6 +308,7 @@
   .column[data-status="interview-pending"]{ --c: var(--hue-interview); }
   .column[data-status="interviewed"]      { --c: var(--hue-interviewed); }
   .column[data-status="offer-received"]   { --c: var(--hue-offer); }
+  .column[data-status="currently-engaged"]{ --c: var(--hue-engaged); }
   .column[data-status="rejected-closed"]  { --c: var(--hue-rejected); }
 
   .column-head {
@@ -882,6 +884,7 @@
             <option value="interview-pending">Interview pending</option>
             <option value="interviewed">Interviewed</option>
             <option value="offer-received">Offer received</option>
+            <option value="currently-engaged">Currently engaged</option>
             <option value="rejected-closed">Rejected / closed</option>
           </select>
         </div>
@@ -935,6 +938,7 @@ const STATUSES = [
   { id: 'interview-pending', label: 'Interview pending', hue: 'var(--hue-interview)' },
   { id: 'interviewed',       label: 'Interviewed',       hue: 'var(--hue-interviewed)' },
   { id: 'offer-received',    label: 'Offer received',    hue: 'var(--hue-offer)' },
+  { id: 'currently-engaged', label: 'Currently engaged', hue: 'var(--hue-engaged)' },
   { id: 'rejected-closed',   label: 'Rejected / closed', hue: 'var(--hue-rejected)' },
 ];
 
@@ -947,12 +951,12 @@ const SEED = [
   {   company: 'Data Annotation', role: 'Law Starter Assessment', status: 'interviewed', description: 'Starter assessment completed (DONE).' },
   {   company: 'Data Annotation', role: 'Finance Starter Assessment', status: 'interviewed', description: 'Starter assessment completed (DONE).' },
   {   company: 'Micro1', role: 'Strategic Project Lead', status: 'not-applied', priority: true, description: 'Deadline-based — do first.' },
-  {   company: 'Micro1', role: 'M&A Attorney', status: 'interviewed', appliedDate: '2026-07-01', description: 'Interview completed today. Awaiting response.' },
+  {   company: 'Micro1', role: 'M&A Attorney', status: 'not-applied', priority: true, description: 'Deadline-based — do first.' },
   {   company: 'Micro1', role: 'Funds Attorney', status: 'not-applied', priority: true, description: 'Deadline-based — do first.' },
   {   company: 'Legora', role: 'Senior Director, Legal Innovation (Corporate Legal)', status: 'applied', appliedDate: '2026-06-26', description: 'Applied 06/26.' },
   {   company: 'Epiq Systems', role: '—', status: 'applied', description: 'Applied. Login via Apple SSO — wasim@resurgam.cc.' },
   {   company: 'Google / Wipro', role: '—', status: 'interview-pending', description: 'Applied. Waiting for an interview date.' },
-  {   company: 'Uber', role: 'AI Solutions — Global Gen AI (Finance Prompt Curation)', status: 'offer-received', description: 'Applied and accepted. Check chat and site daily for new work.' },
+  {   company: 'Uber', role: 'AI Solutions — Global Gen AI (Finance Prompt Curation)', status: 'currently-engaged', description: 'Actively engaged. Check chat and site daily for new work.' },
   {   company: 'Meta', role: 'Full-time role', status: 'offer-received', description: 'Applied and accepted for full-time role. Waiting on background check and onboarding.' },
   {   company: 'Harvey AI', role: 'Legal AI Specialist', status: 'interviewed', appliedDate: '2026-06-28' },
   {   company: 'Meta AI', role: 'Legal AI Specialist', status: 'applied', appliedDate: '2026-06-28' },
@@ -1157,6 +1161,7 @@ function statusHueKey(s) {
     'interview-pending': 'interview',
     'interviewed': 'interviewed',
     'offer-received': 'offer',
+    'currently-engaged': 'engaged',
     'rejected-closed': 'rejected',
   }[s] || 'not';
 }
