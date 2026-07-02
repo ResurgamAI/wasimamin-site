@@ -34,7 +34,6 @@
     --hue-interviewed:#a672ee;  /* amethyst — in progress */
     --hue-offer:      #34c489;  /* emerald — positive */
     --hue-rejected:   #c66b7a;  /* dusty rose — closed */
-    --hue-engaged:    #2fb0b8;  /* teal — active engagement */
 
     /* Type scale */
     --serif:  'Fraunces', Georgia, serif;
@@ -308,7 +307,6 @@
   .column[data-status="interview-pending"]{ --c: var(--hue-interview); }
   .column[data-status="interviewed"]      { --c: var(--hue-interviewed); }
   .column[data-status="offer-received"]   { --c: var(--hue-offer); }
-  .column[data-status="currently-engaged"]{ --c: var(--hue-engaged); }
   .column[data-status="rejected-closed"]  { --c: var(--hue-rejected); }
 
   .column-head {
@@ -884,7 +882,6 @@
             <option value="interview-pending">Interview pending</option>
             <option value="interviewed">Interviewed</option>
             <option value="offer-received">Offer received</option>
-            <option value="currently-engaged">Currently engaged</option>
             <option value="rejected-closed">Rejected / closed</option>
           </select>
         </div>
@@ -938,7 +935,6 @@ const STATUSES = [
   { id: 'interview-pending', label: 'Interview pending', hue: 'var(--hue-interview)' },
   { id: 'interviewed',       label: 'Interviewed',       hue: 'var(--hue-interviewed)' },
   { id: 'offer-received',    label: 'Offer received',    hue: 'var(--hue-offer)' },
-  { id: 'currently-engaged', label: 'Currently engaged', hue: 'var(--hue-engaged)' },
   { id: 'rejected-closed',   label: 'Rejected / closed', hue: 'var(--hue-rejected)' },
 ];
 
@@ -956,8 +952,8 @@ const SEED = [
   {   company: 'Legora', role: 'Senior Director, Legal Innovation (Corporate Legal)', status: 'applied', appliedDate: '2026-06-26', description: 'Applied 06/26.' },
   {   company: 'Epiq Systems', role: '—', status: 'applied', description: 'Applied. Login via Apple SSO — wasim@resurgam.cc.' },
   {   company: 'Google / Wipro', role: '—', status: 'interview-pending', description: 'Applied. Waiting for an interview date.' },
-  {   company: 'Uber', role: 'AI Solutions — Global Gen AI (Finance Prompt Curation)', status: 'currently-engaged', description: 'Actively engaged. Check chat and site daily for new work.' },
-  {   company: 'Meta', role: 'Full-time role', status: 'offer-received', description: 'Applied and accepted for full-time role. Waiting on background check and onboarding.' },
+  {   company: 'Uber', role: 'AI Solutions — Global Gen AI (Finance Prompt Curation)', status: 'offer-received', description: 'Applied and accepted. Check chat and site daily for new work.' },
+  {   company: 'Meta', role: 'Full-time role', status: 'currently-engaged', description: 'Accepted. Pending background check and onboarding.' },
   {   company: 'Harvey AI', role: 'Legal AI Specialist', status: 'interviewed', appliedDate: '2026-06-28' },
   {   company: 'Meta AI', role: 'Legal AI Specialist', status: 'applied', appliedDate: '2026-06-28' },
   {   company: 'SME Careers', role: 'Attorney / Lawyer', status: 'interviewed', appliedDate: '2026-06-28', description: 'Interview completed today. Awaiting response.' },
@@ -965,7 +961,9 @@ const SEED = [
   {   company: 'Vector AI', role: '—', status: 'not-applied', description: 'Follow up.' },
   {   company: 'Foreground LLC', role: 'Director – AI Strategy & Portfolio', status: 'applied', appliedDate: '2026-06-30', url: 'https://foregroundllc.careers-page.com/jobs/50613164-5173-4cdf-b7bd-2c51c897c14f/apply', description: 'Riyadh, Saudi Arabia · On-site.' },
   {   company: 'Foreground LLC', role: 'Senior AI Business Consultant', status: 'applied', appliedDate: '2026-06-30', url: 'https://foregroundllc.careers-page.com/jobs/7d184036-10ec-429e-8c6d-2cc7e6405fb5/apply', description: 'Riyadh, Saudi Arabia · On-site.' },
-  {   company: 'Kirkland & Ellis', role: 'Practice Innovation Advisor', status: 'applied', appliedDate: '2026-07-01', url: 'https://wasimamin.us/private/LRkFOQzb3fY/jds/Kirkland-Practice-Innovation-Advisor.docx', description: 'Chicago, IL · Job ID 8765 · Reports to Chris Yuguli & Eric Feldman · Corporate Transactions practice (M&A / PE / VC tooling) · Referred via Cyrus Bolden (LTS) · Comp band Boston: $153K–$211K.' }
+  {   company: 'Kirkland & Ellis', role: 'Practice Innovation Advisor', status: 'applied', appliedDate: '2026-07-01', url: 'https://wasimamin.us/private/LRkFOQzb3fY/jds/Kirkland-Practice-Innovation-Advisor.docx', description: 'Chicago, IL · Job ID 8765 · Reports to Chris Yuguli & Eric Feldman · Corporate Transactions practice (M&A / PE / VC tooling) · Referred via Cyrus Bolden (LTS) · Comp band Boston: $153K–$211K.' },
+  {   company: 'Mercor', role: 'Team Lead — Legal AI Modeling & Evaluation', status: 'currently-engaged', description: 'Contracted to a top-tier AI lab. Promoted to Team Lead. Doppelganger and related evaluation projects.' },
+  {   company: 'Micro1', role: 'Team Lead — Legal AI Evaluation', status: 'currently-engaged', description: 'Promoted to Team Lead. Ongoing legal AI evaluation engagements.' }
 ];
 
 /* ─── State ──────────────────────────────────────────────────── */
@@ -1161,7 +1159,6 @@ function statusHueKey(s) {
     'interview-pending': 'interview',
     'interviewed': 'interviewed',
     'offer-received': 'offer',
-    'currently-engaged': 'engaged',
     'rejected-closed': 'rejected',
   }[s] || 'not';
 }
