@@ -4,7 +4,7 @@
   <!-- Canonical root — highest priority, the page that gets indexed -->
   <url>
     <loc>https://wasimamin.us/</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -19,7 +19,7 @@
 
   <url>
     <loc>https://wasimamin.us/#ai</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
