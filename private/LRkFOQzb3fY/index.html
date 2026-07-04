@@ -845,7 +845,7 @@
   </main>
 
   <footer class="page-footer">
-    <span>Saved locally to this browser · Last update <span id="lastUpdate">—</span></span>
+    <span><span id="syncStatus">Cloud sync</span> · Last update <span id="lastUpdate">—</span></span>
     <div>
       <button class="link" id="exportBtn">Export JSON</button>
       <button class="link" id="importBtn">Import JSON</button>
@@ -1070,15 +1070,112 @@ function mergeNewSeeds() {
   if (added) save();
 }
 
-function save() {
+function saveLocal() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ jobs: state.jobs, updatedAt: Date.now() }));
     document.getElementById('lastUpdate').textContent = new Date().toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
   } catch (e) { console.warn('Save failed', e); }
 }
 
+function save() {
+  saveLocal();
+  pushToServer();
+}
+
 function uid() {
   return 'j_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+}
+
+/* ─── Cloud sync — Cloudflare D1 via Worker API ──────────────── */
+const API_URL = 'https://wasim-tracker-api.4tg2t26jjh.workers.dev/api/jobs';
+const API_KEY_STORAGE = 'wasim_tracker_api_key';
+const MIGRATED_KEY = 'wasim_tracker_cloud_migrated_v1';
+
+function setSyncStatus(msg) {
+  const el = document.getElementById('syncStatus');
+  if (el) el.textContent = msg;
+}
+
+function getApiKey(promptIfMissing) {
+  let k = '';
+  try { k = localStorage.getItem(API_KEY_STORAGE) || ''; } catch (e) {}
+  if (!k && promptIfMissing) {
+    k = (prompt('Enter your tracker sync key (one time on this browser):') || '').trim();
+    if (k) { try { localStorage.setItem(API_KEY_STORAGE, k); } catch (e) {} }
+  }
+  return k;
+}
+
+async function pushNow(key) {
+  const res = await fetch(API_URL, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Auth-Key': key },
+    body: JSON.stringify(state.jobs),
+  });
+  if (res.status === 401) {
+    try { localStorage.removeItem(API_KEY_STORAGE); } catch (e) {}
+    setSyncStatus('Sync key rejected — reload to re-enter');
+    return false;
+  }
+  setSyncStatus(res.ok ? 'Synced to cloud' : 'Sync error — saved locally');
+  return res.ok;
+}
+
+let pushTimer = null;
+function pushToServer() {
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(async () => {
+    const key = getApiKey(false);
+    if (!key) { setSyncStatus('Local only — reload to connect'); return; }
+    try { await pushNow(key); }
+    catch (e) { setSyncStatus('Offline — saved locally'); }
+  }, 400);
+}
+
+async function syncFromServer() {
+  const key = getApiKey(true);
+  if (!key) { setSyncStatus('Local only — reload to connect'); return; }
+  setSyncStatus('Syncing…');
+  try {
+    const res = await fetch(API_URL, { headers: { 'X-Auth-Key': key } });
+    if (res.status === 401) {
+      try { localStorage.removeItem(API_KEY_STORAGE); } catch (e) {}
+      setSyncStatus('Sync key rejected — reload to re-enter');
+      return;
+    }
+    const data = await res.json();
+    const server = Array.isArray(data.jobs) ? data.jobs : [];
+    let migrated = '';
+    try { migrated = localStorage.getItem(MIGRATED_KEY) || ''; } catch (e) {}
+    if (!migrated) {
+      // One-time merge: union of server + this browser's data, newer updatedAt wins per entry.
+      const norm = j => (j.company + '|' + (j.role || '')).toLowerCase();
+      const byId = new Map();
+      server.forEach(j => byId.set(j.id, j));
+      state.jobs.forEach(j => {
+        const dup = server.find(s => norm(s) === norm(j));
+        if (dup) {
+          if ((Number(j.updatedAt) || 0) > (Number(dup.updatedAt) || 0)) {
+            byId.set(dup.id, Object.assign({}, j, { id: dup.id }));
+          }
+        } else {
+          byId.set(j.id, j);
+        }
+      });
+      state.jobs = Array.from(byId.values());
+      saveLocal();
+      render();
+      await pushNow(key);
+      try { localStorage.setItem(MIGRATED_KEY, '1'); } catch (e) {}
+    } else if (server.length) {
+      state.jobs = server;
+      saveLocal();
+      render();
+      setSyncStatus('Synced to cloud');
+    } else {
+      await pushNow(key);
+    }
+  } catch (e) { setSyncStatus('Offline — using local copy'); }
 }
 
 /* ─── Render ─────────────────────────────────────────────────── */
@@ -1404,7 +1501,7 @@ document.getElementById('importFile').addEventListener('change', async e => {
 });
 
 document.getElementById('resetBtn').addEventListener('click', () => {
-  if (!confirm('Reset everything back to the original seed list? Your current entries will be lost.')) return;
+  if (!confirm('Reset everything back to the original seed list? Your current entries will be lost — including in the cloud database.')) return;
   localStorage.removeItem(STORAGE_KEY);
   load();
   render();
@@ -1414,6 +1511,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 load();
 render();
 document.getElementById('lastUpdate').textContent = new Date().toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+syncFromServer();
 </script>
 
 </body>
