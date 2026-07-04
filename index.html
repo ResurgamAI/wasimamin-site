@@ -970,6 +970,36 @@ footer {
 ::-webkit-scrollbar-thumb { background: var(--gold-deep); }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
+/* ----- Intersection animation (isolated iframe) ----- */
+.intersection-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 620px;
+  background: var(--bg);
+  overflow: hidden;
+}
+.intersection-stage iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  pointer-events: none; /* purely visual — scroll passes straight through */
+}
+.intersection-stage::after {
+  /* soft top/bottom feather so the seam with adjacent sections disappears */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--bg) 0%, transparent 12%, transparent 88%, var(--bg) 100%);
+}
+@media (max-width: 768px) {
+  .intersection-stage { height: 88vh; min-height: 520px; }
+}
+
 </style>
 </head>
 
@@ -1025,6 +1055,11 @@ footer {
       </div>
     </div>
     <div class="scroll-cue">Scroll to begin</div>
+  </section>
+
+  <!-- INTERSECTION ANIMATION -->
+  <section id="intersection" class="intersection-stage" aria-label="At the intersection — where law, strategy, and AI become one">
+    <iframe src="/hero-animation.html" title="At the intersection — where law, strategy, and AI become one" scrolling="no" loading="eager"></iframe>
   </section>
 
   <!-- ABOUT / PRACTICE -->

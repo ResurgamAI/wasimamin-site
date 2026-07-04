@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>At the Intersection — Wasim Amin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; height: 100%; background: #050810; overflow: hidden; }
+  #wrap { position: absolute; inset: 0; overflow: hidden; background: #050810; }
+  #stage {
+    position: absolute; top: 50%; left: 50%;
+    width: 1600px; height: 900px;
+    transform: translate(-50%, -50%) scale(var(--s, 1));
+    transform-origin: center;
+  }
+  #atmos {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 42%, rgba(201,169,97,0.10), transparent 55%),
+      radial-gradient(ellipse at 20% 0%, rgba(201,169,97,0.05), transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(117,147,184,0.05), transparent 50%);
+  }
+  #svg { position: absolute; inset: 0; }
+  .word {
+    position: absolute; white-space: nowrap;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+    font-size: 40px; letter-spacing: 0.5px; color: #e0c279;
+    text-shadow: 0 2px 24px rgba(201,169,97,0.35);
+  }
+  #eyebrow {
+    position: absolute; top: 52px; left: 56px;
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 4px; text-transform: uppercase; color: #c9a961;
+  }
+  #eyebrow .rule { width: 32px; height: 1px; background: #c9a961; display: inline-block; }
+  #caption { position: absolute; top: 565px; left: 50%; transform: translateX(-50%); text-align: center; }
+  #caption .line1 {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+    font-size: 34px; color: #e8e4d6; letter-spacing: 0.5px;
+  }
+  #caption .line1 .gold { color: #e0c279; }
+  #caption .line2 {
+    margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 4px; text-transform: uppercase; color: #8e8a7e;
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="stage">
+    <div id="atmos"></div>
+    <svg id="svg" width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#c9a961" stop-opacity="0.30"/>
+          <stop offset="45%" stop-color="#c9a961" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="#c9a961" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <g id="dyn"></g>
+    </svg>
+    <!-- text overlay filled by JS -->
+    <div id="eyebrow"><span class="rule"></span>Counsel · Strategy · AI</div>
+    <div id="caption">
+      <div class="line1">At the <span class="gold">intersection</span>.</div>
+      <div class="line2">Where the three become one</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var W = 1600, H = 900, CX = 800, CY = 415, GEM_R = 92, NODE_R = 342, DUR = 12;
+  var GOLD = '#c9a961', GOLD_BRIGHT = '#e0c279', GOLD_DEEP = '#8b7340', SLATE = '#7593b8';
+  var TAU = Math.PI * 2;
+  var NS = 'http://www.w3.org/2000/svg';
+
+  var NODES = [
+    { label: 'Law', ang: -90 },
+    { label: 'Strategy', ang: 150 },
+    { label: 'The Model', ang: 30 }
+  ].map(function (n) {
+    var a = n.ang * Math.PI / 180;
+    return { label: n.label, x: CX + NODE_R * Math.cos(a), y: CY + NODE_R * Math.sin(a),
+             dx: Math.cos(a), dy: Math.sin(a) };
+  });
+
+  var frac = function (v) { return v - Math.floor(v); };
+  var clamp01 = function (v) { return Math.max(0, Math.min(1, v)); };
+  function hexToRgb(h) { h = h.replace('#', ''); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; }
+  function lerpColor(a, b, t) {
+    var A = hexToRgb(a), B = hexToRgb(b);
+    return 'rgb(' + A.map(function (v, i) { return Math.round(v + (B[i]-v)*t); }).join(',') + ')';
+  }
+  function hexPts(cx, cy, r, rotDeg) {
+    var out = [];
+    for (var i = 0; i < 6; i++) {
+      var a = (rotDeg + i*60) * Math.PI/180;
+      out.push([cx + r*Math.cos(a), cy + r*Math.sin(a)]);
+    }
+    return out;
+  }
+
+  // place discipline words
+  var stage = document.getElementById('stage');
+  NODES.forEach(function (n) {
+    var el = document.createElement('div');
+    el.className = 'word';
+    el.textContent = n.label;
+    var below = n.y > CY;
+    el.style.left = n.x + 'px';
+    el.style.top = n.y + (below ? 18 : -18) + 'px';
+    el.style.transform = 'translate(-50%, ' + (below ? '0' : '-100%') + ')';
+    stage.appendChild(el);
+  });
+
+  // ambient dust
+  var DUST = [];
+  for (var i = 0; i < 26; i++) {
+    DUST.push({ x: (i*137.5) % W, y0: (i*231.3) % H, r: 0.6 + (i%5)*0.35,
+                o: 0.05 + (i%4)*0.03, sp: 0.25 + (i%3)*0.12 });
+  }
+
+  var dyn = document.getElementById('dyn');
+
+  function frame(t) {
+    var s = '';
+
+    // dust
+    for (var i = 0; i < DUST.length; i++) {
+      var d = DUST[i];
+      var y = ((d.y0 - (t/DUR)*H*d.sp) % H + H) % H;
+      s += circle(d.x, y, d.r, i%3===0 ? SLATE : GOLD, d.o);
+    }
+
+    // rotating ring
+    var ringRot = -(t/DUR)*360;
+    var ringR = GEM_R * 1.9;
+    s += '<g transform="rotate(' + ringRot + ' ' + CX + ' ' + CY + ')">';
+    s += '<circle cx="'+CX+'" cy="'+CY+'" r="'+ringR+'" fill="none" stroke="'+GOLD+'" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="2 12"/>';
+    for (var k = 0; k < 4; k++) {
+      var ra = k*90 * Math.PI/180;
+      s += circle(CX + ringR*Math.cos(ra), CY + ringR*Math.sin(ra), 2, GOLD, 0.5);
+    }
+    s += '</g>';
+
+    // arms + pulses
+    NODES.forEach(function (n, idx) {
+      var ex = CX + n.dx*(GEM_R+6), ey = CY + n.dy*(GEM_R+6);
+      s += '<line x1="'+n.x+'" y1="'+n.y+'" x2="'+ex+'" y2="'+ey+'" stroke="'+GOLD+'" stroke-opacity="0.14" stroke-width="1"/>';
+      var np = 0.6 + 0.4*Math.sin(TAU*t/3 + idx*2.1);
+      s += circle(n.x, n.y, 9, GOLD, 0.10 + 0.10*np);
+      s += circle(n.x, n.y, 3.2, GOLD_BRIGHT, 0.8);
+      for (var j = 0; j < 2; j++) {
+        var u = frac(t/3 + idx*0.17 + j*0.5);
+        var env = Math.sin(Math.PI*u);
+        var px = n.x + (ex-n.x)*u, py = n.y + (ey-n.y)*u;
+        var rad = 1.6 + 2.4*u;
+        s += circle(px, py, rad, GOLD_BRIGHT, 0.9*env);
+        s += circle(px, py, rad*2.4, GOLD, 0.28*env);
+      }
+    });
+
+    // gem
+    var rot = (t/DUR)*360;
+    var breathe = 1 + 0.035*Math.sin(TAU*t/6);
+    var glow = 0.5 + 0.5*Math.sin(TAU*t/2);
+    var r = GEM_R*breathe, lightDir = -55;
+    var outer = hexPts(CX, CY, r, rot);
+    var inner = hexPts(CX, CY, r*0.44, rot);
+
+    s += circle(CX, CY, r*(2.6+0.25*glow), 'url(#halo)', 0.55+0.25*glow, true);
+    s += circle(CX, CY, r*1.02, GOLD, 0.10+0.12*glow);
+    for (var f = 0; f < 6; f++) {
+      var g = (f+1)%6;
+      var mid = rot + f*60 + 30;
+      var face = Math.cos((mid-lightDir)*Math.PI/180);
+      var shade = clamp01(0.42 + 0.5*face);
+      var col = lerpColor(GOLD_DEEP, GOLD_BRIGHT, shade);
+      s += '<polygon points="' + pts([outer[f],outer[g],inner[g],inner[f]]) + '" fill="'+col+'" stroke="'+GOLD_BRIGHT+'" stroke-opacity="0.35" stroke-width="0.75"/>';
+    }
+    s += '<polygon points="' + pts(inner) + '" fill="'+lerpColor(GOLD,GOLD_BRIGHT,0.4+0.6*glow)+'" opacity="0.95"/>';
+    for (var m = 0; m < 6; m++) {
+      s += '<line x1="'+CX+'" y1="'+CY+'" x2="'+inner[m][0]+'" y2="'+inner[m][1]+'" stroke="'+GOLD_DEEP+'" stroke-opacity="0.5" stroke-width="0.75"/>';
+    }
+    s += '<polygon points="' + pts(outer) + '" fill="none" stroke="'+GOLD_BRIGHT+'" stroke-opacity="'+(0.55+0.3*glow)+'" stroke-width="1.2"/>';
+    s += circle(outer[4][0], outer[4][1], 2.4, '#ffffff', 0.5+0.4*glow);
+
+    dyn.innerHTML = s;
+  }
+
+  function circle(cx, cy, r, fill, op, isUrl) {
+    return '<circle cx="'+cx.toFixed(2)+'" cy="'+cy.toFixed(2)+'" r="'+r.toFixed(2)+'" fill="'+fill+'" opacity="'+op.toFixed(3)+'"/>';
+  }
+  function pts(arr) { return arr.map(function (p) { return p[0].toFixed(2)+','+p[1].toFixed(2); }).join(' '); }
+
+  // cover-scale the fixed 1600x900 stage to fill the container
+  var wrap = document.getElementById('wrap');
+  function fit() {
+    var s = Math.max(wrap.clientWidth / W, wrap.clientHeight / H);
+    stage.style.setProperty('--s', s);
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap);
+
+  // seamless loop
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var start = performance.now();
+  function loop(now) {
+    var t = ((now - start) / 1000) % DUR;
+    frame(t);
+    if (!reduce) requestAnimationFrame(loop);
+  }
+  frame(0);
+  if (!reduce) requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
