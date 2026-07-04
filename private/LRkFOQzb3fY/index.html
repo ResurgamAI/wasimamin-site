@@ -964,7 +964,12 @@ const SEED = [
   {   company: 'Kirkland & Ellis', role: 'Practice Innovation Advisor', status: 'applied', appliedDate: '2026-07-01', url: 'https://wasimamin.us/private/LRkFOQzb3fY/jds/Kirkland-Practice-Innovation-Advisor.docx', description: 'Chicago, IL · Job ID 8765 · Reports to Chris Yuguli & Eric Feldman · Corporate Transactions practice (M&A / PE / VC tooling) · Referred via Cyrus Bolden (LTS) · Comp band Boston: $153K–$211K.' },
   {   company: 'Mercor', role: 'Team Lead — Legal AI Modeling & Evaluation', status: 'currently-engaged', description: 'Contracted to a top-tier AI lab. Promoted to Team Lead. Doppelganger and related evaluation projects.' },
   {   company: 'Micro1', role: 'Team Lead — Legal AI Evaluation', status: 'currently-engaged', description: 'Promoted to Team Lead. Ongoing legal AI evaluation engagements.' },
-  {   company: 'Mercor', role: 'Law – Reviewer (Hourly Contract)', status: 'currently-engaged', appliedDate: '2026-07-02', description: 'Just accepted. $170/hr. Start date 2026-07-02.' }
+  {   company: 'Mercor', role: 'Law – Reviewer (Hourly Contract)', status: 'currently-engaged', appliedDate: '2026-07-02', description: 'Just accepted. $170/hr. Start date 2026-07-02.' },
+  {   company: 'Alignerr', role: 'Governance, Risk & Compliance (GRC) Analyst (AI Training)', status: 'applied', appliedDate: '2026-07-03', url: 'https://app.alignerr.com/home?job-id=1937a582-df7f-4be7-852e-a9693613aba6', description: 'Job description at posting link.' },
+  {   company: 'Alignerr', role: 'Financial Analyst — AI Model Reviewer (AI Training)', status: 'applied', appliedDate: '2026-07-03', url: 'https://app.alignerr.com/home?job-id=4d79b7c5-263a-49cd-9e7e-e657c3890d1a', description: 'NEEDS ASSESSMENT — Zara style. Job description at posting link.' },
+  {   company: 'Alignerr', role: 'AI Policy, Ethics & Compliance Analyst', status: 'applied', appliedDate: '2026-07-03', url: 'https://app.alignerr.com/home?job-id=a05762b5-bc1e-458e-ba37-270115b0727d', description: 'Job description at posting link.' },
+  {   company: 'Alignerr', role: 'Financial Analyst AI Researcher (AI Training)', status: 'applied', appliedDate: '2026-07-03', url: 'https://app.alignerr.com/home?job-id=afc499d9-61c8-4173-b192-3970eacc649e', description: 'Job description at posting link.' },
+  {   company: 'Alignerr', role: 'Financial Analyst AI Researcher', status: 'applied', appliedDate: '2026-07-03', url: 'https://app.alignerr.com/home?job-id=dc705801-2ead-4b4c-be9f-2cd084aff661', description: 'Job description at posting link.' }
 ];
 
 /* ─── State ──────────────────────────────────────────────────── */
@@ -982,6 +987,7 @@ function load() {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed.jobs)) {
         state.jobs = parsed.jobs;
+        mergeNewSeeds();
         return;
       }
     }
@@ -1000,6 +1006,38 @@ function load() {
     updatedAt: Date.now(),
   }));
   save();
+}
+
+/* Merge seed entries added after first run — once each, so user deletions stay deleted. */
+function mergeNewSeeds() {
+  const MERGE_KEY = 'wasim_job_tracker_seeded_keys_v1';
+  let seen = [];
+  try { seen = JSON.parse(localStorage.getItem(MERGE_KEY)) || []; } catch (e) {}
+  if (!seen.length) {
+    // First run of merge logic: assume everything currently in SEED-or-storage is known.
+    seen = state.jobs.map(j => (j.company + '|' + j.role).toLowerCase());
+  }
+  let added = false;
+  SEED.forEach(j => {
+    const key = (j.company + '|' + (j.role || '')).toLowerCase();
+    if (seen.includes(key)) return;
+    seen.push(key);
+    state.jobs.push({
+      id: uid(),
+      company: j.company,
+      role: j.role || '',
+      status: j.status,
+      appliedDate: j.appliedDate || '',
+      url: j.url || '',
+      description: j.description || '',
+      priority: !!j.priority,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
+    added = true;
+  });
+  try { localStorage.setItem(MERGE_KEY, JSON.stringify(seen)); } catch (e) {}
+  if (added) save();
 }
 
 function save() {
