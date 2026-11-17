@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Wasim Amin, J.D., M.B.A. — U.S. Corporate Attorney, Management Consultant, and Legal AI Specialist. 22+ years advising on $7B+ in cross-border transactions; currently designing evaluation frameworks for frontier legal LLMs.">
-<title>Wasim Amin, J.D., M.B.A. — Counsel · Strategy · AI</title>
+<meta name="description" content="Wasim Amin, J.D., M.B.A. U.S. corporate attorney, management consultant, and forward-deployed AI architect. 22+ years advising on $7B+ in cross-border transactions. Team Lead and Auditor on Meta's Law team; founder of Fidem Praxis and The SME Standard Academy.">
+<title>Wasim Amin, J.D., M.B.A. · Counsel · Strategy · AI</title>
+<link rel="canonical" href="https://wasimamin.us/">
+<meta property="og:title" content="Wasim Amin, J.D., M.B.A. · Counsel · Strategy · AI">
+<meta property="og:description" content="U.S. corporate attorney, management consultant, and forward-deployed AI architect. Team Lead and Auditor on Meta's Law team; founder of Fidem Praxis and The SME Standard Academy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wasimamin.us/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -305,6 +310,13 @@ section {
 
 .hero-meta .label { color: var(--text-faint); font-size: 9px; }
 .hero-meta .value { color: var(--gold); }
+.hero-meta .value a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s, color 0.3s;
+}
+.hero-meta .value a:hover { color: var(--gold-bright); border-bottom-color: var(--gold-bright); }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -418,6 +430,8 @@ h2 .em {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  position: relative;
+  overflow: hidden;
 }
 
 .metric-num {
@@ -559,6 +573,124 @@ h2 .em {
   background: rgba(5, 8, 16, 0.5);
 }
 
+/* ----- Ventures ----- */
+.ventures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.venture {
+  display: flex;
+  flex-direction: column;
+  padding: 44px 40px;
+  background: var(--bg-card);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s;
+}
+
+.venture::before, .venture::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--gold);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.venture::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.venture::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+a.venture:hover { border-color: var(--line-strong); }
+a.venture:hover::before, a.venture:hover::after { opacity: 1; }
+
+.venture-legacy {
+  background: rgba(5, 8, 16, 0.45);
+  border-style: dashed;
+}
+
+.venture-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+}
+
+.venture-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.venture-role {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--text-dim);
+}
+
+.venture-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 10px 0 24px;
+}
+
+.venture-body {
+  font-size: 14.5px;
+  color: var(--text-dim);
+  flex: 1;
+}
+
+.venture-body p + p { margin-top: 12px; }
+
+.venture .role-tags { margin-top: 24px; }
+
+.venture-link {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.venture-link::after {
+  content: '↗';
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  transition: transform 0.3s;
+}
+
+a.venture:hover .venture-link { color: var(--gold-bright); }
+a.venture:hover .venture-link::after { transform: translate(3px, -3px); }
+
+@media (max-width: 1100px) {
+  .ventures { grid-template-columns: 1fr 1fr; }
+  .venture-legacy { grid-column: 1 / -1; }
+}
+
 /* ----- Timeline ----- */
 .timeline {
   position: relative;
@@ -634,7 +766,7 @@ h2 .em {
 /* ----- Deals grid ----- */
 .deals {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -800,7 +932,7 @@ h2 .em {
 
 .cta-meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 40px;
   margin-top: 56px;
   padding-top: 56px;
@@ -929,6 +1061,45 @@ footer {
 .reveal.delay-2 { transition-delay: 0.2s; }
 .reveal.delay-3 { transition-delay: 0.3s; }
 
+/* ----- 3D pointer tilt on glass surfaces ----- */
+.tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, background 0.4s;
+}
+
+.tilt:not(.reveal) {
+  transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));
+}
+
+.reveal.tilt {
+  transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(40px);
+}
+
+.reveal.tilt.visible {
+  transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(0);
+}
+
+.tilt.tilting {
+  transition: transform 0.09s linear, border-color 0.4s, background 0.4s;
+}
+
+.tilt .sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(560px circle at var(--mx) var(--my), rgba(224, 194, 121, 0.11), transparent 46%);
+  opacity: 0;
+  transition: opacity 0.45s;
+}
+
+.tilt:hover .sheen { opacity: 1; }
+.tilt > *:not(.sheen) { position: relative; z-index: 1; }
+
 /* ----- Progress bar ----- */
 .progress {
   position: fixed;
@@ -959,6 +1130,10 @@ footer {
   .cta-inner { padding: 48px 28px; }
   .edu-row { grid-template-columns: 1fr; gap: 12px; }
   .deal { padding: 32px 24px; }
+  .deals { grid-template-columns: 1fr; }
+  .ventures { grid-template-columns: 1fr; gap: 16px; }
+  .venture { padding: 32px 24px; }
+  .venture-name { font-size: 30px; }
 }
 
 /* Selection */
@@ -986,7 +1161,7 @@ footer {
   height: 100%;
   border: 0;
   display: block;
-  pointer-events: none; /* purely visual — scroll passes straight through */
+  pointer-events: none; /* purely visual; scroll passes straight through */
 }
 .intersection-stage::after {
   /* soft top/bottom feather so the seam with adjacent sections disappears */
@@ -1015,6 +1190,7 @@ footer {
   <ul class="nav-links">
     <li><a href="#practice">Practice</a></li>
     <li><a href="#ai">AI Work</a></li>
+    <li><a href="#ventures">Ventures</a></li>
     <li><a href="#career">Career</a></li>
     <li><a href="#transactions">Transactions</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -1033,7 +1209,7 @@ footer {
         At the intersection of <em>law</em>, <em>strategy</em>, and <em>the model</em>.
       </p>
       <p class="hero-sub">
-        A U.S. corporate attorney, management consultant, and frontier-AI specialist with twenty-two years of cross-border practice, currently designing the <em>evaluation frameworks</em> that shape frontier legal language models for a top-three AI laboratory. The rarity is in the seam between the three.
+        A U.S. corporate attorney, management consultant, and forward-deployed AI architect with twenty-two years of cross-border practice. Today he leads and audits the Law team shaping <em>frontier legal models</em> at Meta, runs Fidem Praxis, a governed-AI practice for regulated work, and trains the next generation of expert annotators at The SME Standard Academy. The rarity is in the seam between the three.
       </p>
       <div class="hero-meta">
         <div>
@@ -1049,8 +1225,8 @@ footer {
           <span class="value">EN · AR · FR</span>
         </div>
         <div>
-          <span class="label">Engagements</span>
-          <span class="value">Selectively open</span>
+          <span class="label">Practice</span>
+          <span class="value"><a href="https://fidempraxis.com" target="_blank" rel="noopener">fidempraxis.com</a></span>
         </div>
       </div>
     </div>
@@ -1058,32 +1234,36 @@ footer {
   </section>
 
   <!-- INTERSECTION ANIMATION -->
-  <section id="intersection" class="intersection-stage" aria-label="At the intersection — where law, strategy, and AI become one">
-    <iframe src="/hero-animation.html" title="At the intersection — where law, strategy, and AI become one" scrolling="no" loading="eager"></iframe>
+  <section id="intersection" class="intersection-stage" aria-label="At the intersection: where law, strategy, and AI become one">
+    <iframe src="/hero-animation.html" title="At the intersection: where law, strategy, and AI become one" scrolling="no" loading="eager"></iframe>
   </section>
 
   <!-- ABOUT / PRACTICE -->
   <section id="practice">
     <div class="section-inner">
       <div class="eyebrow reveal"><span class="num">01</span> &nbsp;&nbsp;The Practice</div>
-      <h2 class="reveal">A practice built at the seam of <span class="em">three disciplines</span> — corporate law, management consulting, and machine learning — none of which forgive imprecision.</h2>
-      <p class="lead reveal delay-1">Twenty-two years of M&amp;A, private equity, venture capital, U.S.–MENA structured finance, and strategic business advisory. A J.D. <em>magna cum laude</em> in the top 1% of class. An M.B.A. <em>summa cum laude</em>. A Google Cloud Professional Cloud Architect certification and AI credentials from Harvard and Babson. The work spans all three — and so does the standard.</p>
+      <h2 class="reveal">A practice built at the seam of <span class="em">three disciplines</span>: corporate law, management consulting, and machine learning. None of them forgives imprecision.</h2>
+      <p class="lead reveal delay-1">Twenty-two years of M&amp;A, private equity, venture capital, U.S.–MENA structured finance, and strategic business advisory. A J.D. <em>magna cum laude</em> in the top 1% of class. An M.B.A. <em>summa cum laude</em>. A Google Cloud Professional Cloud Architect certification and AI credentials from Harvard, Babson, and Anthropic. Now also a forward-deployed engineer, building production LLM, RAG, and agentic systems inside clients' own security and compliance perimeters. The work spans all three, and so does the standard.</p>
       <div class="metric-strip reveal delay-2">
-        <div class="metric">
+        <div class="metric tilt">
           <div class="metric-num">22<span class="small">yrs</span></div>
           <div class="metric-label">Of practice</div>
         </div>
-        <div class="metric">
+        <div class="metric tilt">
           <div class="metric-num">$7B<span class="small">+</span></div>
           <div class="metric-label">In transactions advised</div>
         </div>
-        <div class="metric">
+        <div class="metric tilt">
           <div class="metric-num">100<span class="small">+</span></div>
           <div class="metric-label">Portfolio companies overseen</div>
         </div>
-        <div class="metric">
+        <div class="metric tilt">
+          <div class="metric-num">4<span class="small">of 4</span></div>
+          <div class="metric-label">Legal AI engagements led or audited</div>
+        </div>
+        <div class="metric tilt">
           <div class="metric-num">20<span class="small">+</span></div>
-          <div class="metric-label">Peer-reviewed publications</div>
+          <div class="metric-label">Published works</div>
         </div>
       </div>
     </div>
@@ -1094,39 +1274,39 @@ footer {
     <div class="section-inner">
       <div class="eyebrow reveal"><span class="num">02</span> &nbsp;&nbsp;Frontier Legal AI</div>
       <h2 class="reveal">Designing the <span class="em">evaluations</span> that frontier models will be measured against.</h2>
-      <p class="lead reveal delay-1">Now advising Meta directly on frontier legal-model training — and contracted through Mercor to a top-three AI laboratory — the work is in shaping how the next generation of legal language models reasons, cites, and is held accountable.</p>
+      <p class="lead reveal delay-1">Promoted to team lead or auditor on every legal AI engagement to date: Meta, Mercor, micro1, and Handshake AI. The work is in shaping how the next generation of legal language models reasons, cites, and is held accountable, and in auditing the data that trains them against rubrics built for big-law-caliber performance.</p>
 
-      <div class="role-card reveal">
+      <div class="role-card tilt reveal">
         <div class="role-head">
           <div>
-            <div class="role-title">Legal Expert &amp; AI Implementation Strategist</div>
-            <div class="role-org">Meta — Legal AI, RLHF &amp; Model Evaluation</div>
+            <div class="role-title">Team Lead &amp; Auditor, Law Team</div>
+            <div class="role-org">Meta · Legal Expert &amp; AI Implementation Strategist · New York</div>
           </div>
-          <div class="role-period">2026 — Present</div>
+          <div class="role-period">Jul 2026 – Present</div>
         </div>
         <div class="role-body">
-          <p>Advising Meta's research teams and engineers on the design and implementation of RLHF training guidelines for frontier models — bringing two decades of corporate-law judgment to closing domain knowledge gaps and lifting model performance on complex legal reasoning.</p>
-          <p>Sets the gold standard for legal training data: developing precise, sub-domain-specific guidelines and running quality assurance across supervised fine-tuning pipelines, evaluating vendor annotations against detailed rubrics to drive measurable gains in data quality and rigor.</p>
+          <p>Leads and audits on Meta's Law team, designing and implementing RLHF training guidelines and evaluation frameworks that guide research teams and engineers in closing knowledge gaps and lifting frontier model performance on complex legal reasoning.</p>
+          <p>Maintains the gold standard for legal training data: precise, sub-domain-specific guidelines kept current across the team, consistency and accuracy enforced across complex legal sub-domains with fellow subject matter experts, and vendor annotation quality evaluated against detailed rubrics with structured feedback that raises the floor.</p>
         </div>
         <div class="role-tags">
+          <span class="tag">Team Lead · Auditor</span>
           <span class="tag">RLHF Guidelines</span>
-          <span class="tag">SFT · QA</span>
+          <span class="tag">Vendor QA</span>
           <span class="tag">Gold-Standard Data</span>
-          <span class="tag">Domain Advisory</span>
         </div>
       </div>
 
-      <div class="role-card reveal delay-1">
+      <div class="role-card tilt reveal delay-1">
         <div class="role-head">
           <div>
             <div class="role-title">Team Lead · Legal AI Modeling &amp; Evaluation Specialist</div>
-            <div class="role-org">Mercor Intelligence — contracted to a top-three AI laboratory</div>
+            <div class="role-org">Mercor Intelligence · retained by a top-three global technology company</div>
           </div>
-          <div class="role-period">2025 — Present</div>
+          <div class="role-period">2025 – Jul 2026</div>
         </div>
         <div class="role-body">
-          <p>Architect complex, multi-layered legal evaluation frameworks simulating real-world corporate transactions — M&amp;A due diligence, IPO readiness assessments, data breach response, and cross-jurisdictional regulatory compliance under GDPR, LGPD, PDPA, and DORA.</p>
-          <p>Design multi-dimensional scoring rubrics and golden responses for RLHF and SFT pipelines, calibrated to produce 5–10% exemplary performance rates among frontier models. Construct interconnected corporate document ecosystems with embedded governance issues and red-herring document sets, stress-testing AI reasoning, statutory interpretation, and doctrinal analysis.</p>
+          <p>Designed training and evaluation scenarios for frontier legal LLMs targeting big-law-caliber performance, and was promoted to team lead. Architected multi-layered evaluation frameworks simulating real corporate transactions: M&amp;A, due diligence, IPO readiness, data breach response, and cross-jurisdictional compliance under the EU AI Act, GDPR, DORA, and the U.S. CLOUD Act.</p>
+          <p>Built multi-dimensional scoring rubrics and golden responses for RLHF and SFT pipelines, calibrated to 5 to 10% exemplary performance rates among frontier models. Constructed interconnected corporate document ecosystems with embedded governance issues, red-herring sets, and APA-cited briefs to stress-test statutory interpretation and doctrinal analysis, graded under the ICON-R methodology.</p>
         </div>
         <div class="role-tags">
           <span class="tag">ICON-R Framework</span>
@@ -1137,17 +1317,17 @@ footer {
         </div>
       </div>
 
-      <div class="role-card reveal delay-2">
+      <div class="role-card tilt reveal delay-2">
         <div class="role-head">
           <div>
             <div class="role-title">Team Lead · AI Legal Subject Matter Expert</div>
-            <div class="role-org">Micro1 (Micro AI)</div>
+            <div class="role-org">micro1 · AI human-data platform</div>
           </div>
-          <div class="role-period">2025</div>
+          <div class="role-period">2024 – 2025</div>
         </div>
         <div class="role-body">
-          <p>Domain expert for a leading AI human-data platform, providing specialized legal knowledge for model training, fine-tuning, and evaluation across corporate law, regulatory compliance, and cross-border transactions.</p>
-          <p>Designed prompts covering doctrinal analysis, statutory interpretation, regulatory compliance, and complex M&amp;A scenarios; reviewed AI-generated legal outputs for accuracy and reasoning quality against the rigor expected by top-tier law firms.</p>
+          <p>Domain expert for one of the leading AI human-data platforms, providing specialized legal knowledge for model training, fine-tuning, and evaluation across corporate law, regulatory compliance, and cross-border transactions; promoted to team lead over the legal experts.</p>
+          <p>Designed realistic prompts covering doctrinal analysis, statutory interpretation, regulatory compliance, and complex M&amp;A scenarios; reviewed AI-generated legal outputs against the rigor expected by top-tier firms and Fortune 500 legal departments; worked with engineering and data science teams to turn legal concepts into structured datasets for SFT and RL pipelines.</p>
         </div>
         <div class="role-tags">
           <span class="tag">SME · Legal</span>
@@ -1156,23 +1336,66 @@ footer {
           <span class="tag">Training Data Design</span>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="role-card reveal delay-3">
-        <div class="role-head">
-          <div>
-            <div class="role-title">Founder · Resurgam.AI</div>
-            <div class="role-org">AI consulting across finance, healthcare, retail, and professional services</div>
+  <!-- VENTURES -->
+  <section id="ventures">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">03</span> &nbsp;&nbsp;Ventures</div>
+      <h2 class="reveal">Two companies built at the <span class="em">seam</span>: a governed-AI practice, and a school for the experts who train the models.</h2>
+      <p class="lead reveal delay-1">Fidem Praxis deploys custom AI systems inside regulated institutions. The SME Standard Academy trains the attorneys, financiers, physicians, and PhDs who produce the data those systems learn from. Resurgam.AI, the consulting practice that preceded both, merged into Fidem Praxis in July 2024.</p>
+
+      <div class="ventures reveal delay-2">
+        <a class="venture tilt" href="https://fidempraxis.com" target="_blank" rel="noopener">
+          <div class="venture-kicker">Governed AI · Forward Deployed</div>
+          <div class="venture-name">Fidem Praxis</div>
+          <div class="venture-role">Founder &amp; CEO · FDE.AI Architect</div>
+          <div class="venture-period">Jul 2024 – Present · New York</div>
+          <div class="venture-body">
+            <p>A governed-AI practice that architects and deploys custom AI systems for regulated work across corporate legal, financial institutions, and professional services. Wasim operates as a forward-deployed engineer embedded with client teams: technical discovery, use-case scoping, production LLM, RAG, and agentic workflows built against client data, and pilots carried to production inside the client's own security and compliance perimeter.</p>
+            <p>Every deployment ships inside a governance frame aligned with GDPR, HIPAA, the EU AI Act, and DORA, with the scoring rubrics, red-teaming protocols, and golden-response benchmarks of frontier-lab evaluation applied before and after go-live. Also home to a proprietary Arabic Legal &amp; Financial Translation Corpus spanning Modern Standard, Egyptian, and Gulf Arabic, with a sample, spec sheet, and licensing on the site.</p>
           </div>
-          <div class="role-period">2022 — Present</div>
-        </div>
-        <div class="role-body">
-          <p>End-to-end AI consulting delivering adoption roadmaps that have reduced client operational costs by 15–25%. Deploys LLM, RAG, and automation workflows that accelerate client processes by 40–60%. Builds governance frameworks aligned to GDPR, HIPAA, and industry-specific standards.</p>
-        </div>
-        <div class="role-tags">
-          <span class="tag">LLM · RAG</span>
-          <span class="tag">AI Governance</span>
-          <span class="tag">GDPR · HIPAA</span>
-          <span class="tag">Strategy</span>
+          <div class="role-tags">
+            <span class="tag">LLM · RAG · Agentic</span>
+            <span class="tag">MCP &amp; Tool Use</span>
+            <span class="tag">AI Governance</span>
+            <span class="tag">Arabic Legal Corpus</span>
+          </div>
+          <div class="venture-link">fidempraxis.com</div>
+        </a>
+
+        <a class="venture tilt" href="https://smestandard.com" target="_blank" rel="noopener">
+          <div class="venture-kicker">Professional School · Training Data Craft</div>
+          <div class="venture-name">The SME Standard Academy</div>
+          <div class="venture-role">Founder</div>
+          <div class="venture-period">Jun 2026 – Present · New York</div>
+          <div class="venture-body">
+            <p>An independent professional school that trains attorneys, finance professionals, physicians, and PhDs in the craft of AI training-data work: prompt design, rubric engineering, golden answers, RLHF annotation, and QC auditing. The curriculum is graded and artifact-first; students produce prompt packages, rubrics, golden answers, and audit reports, each assessed against published rubrics with written feedback.</p>
+            <p>Launched with Legal and Finance tracks, The SME Handbook covering every module, quiz, and final exam, and a 32-question self-assessment that benchmarks an expert's readiness for platform screening. A B2B offering serves vendors, AI labs, and enterprises with private cohorts, pilots, expert-workforce pipelines, and white-label curriculum licensing. Built entirely from public sources and original synthetic examples.</p>
+          </div>
+          <div class="role-tags">
+            <span class="tag">Curriculum Design</span>
+            <span class="tag">Rubric Engineering</span>
+            <span class="tag">RLHF · QC Audit</span>
+            <span class="tag">B2B Cohorts</span>
+          </div>
+          <div class="venture-link">smestandard.com</div>
+        </a>
+
+        <div class="venture venture-legacy tilt">
+          <div class="venture-kicker">Predecessor · Merged into Fidem Praxis</div>
+          <div class="venture-name">Resurgam.AI</div>
+          <div class="venture-role">Founder &amp; AI Consultant</div>
+          <div class="venture-period">2022 – Jul 2024 · Boston</div>
+          <div class="venture-body">
+            <p>$15M in revenue and $4M in net profit within eleven months of operations, with a 95% client satisfaction rate and 65% year-over-year growth. End-to-end AI consulting across finance, healthcare, retail, and professional services: adoption roadmaps that cut client operating costs by 15 to 25%, LLM, RAG, and automation deployments that accelerated processes by 40 to 60%, and governance frameworks aligned with GDPR and HIPAA that reduced regulatory risk by up to 35%.</p>
+          </div>
+          <div class="role-tags">
+            <span class="tag">$15M Revenue</span>
+            <span class="tag">AI Roadmaps</span>
+            <span class="tag">GDPR · HIPAA</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1181,39 +1404,45 @@ footer {
   <!-- CAREER TIMELINE -->
   <section id="career">
     <div class="section-inner">
-      <div class="eyebrow reveal"><span class="num">03</span> &nbsp;&nbsp;The Career</div>
-      <h2 class="reveal">Two decades of <span class="em">cross-border</span> corporate practice — from BigLaw rotation to outside general counsel at a billion-dollar venture firm.</h2>
+      <div class="eyebrow reveal"><span class="num">04</span> &nbsp;&nbsp;The Career</div>
+      <h2 class="reveal">Two decades of <span class="em">cross-border</span> corporate practice, from BigLaw rotation to outside general counsel of a venture firm he incorporated and saw grow to $7B in assets.</h2>
 
       <div class="timeline" style="margin-top: 80px;">
         <div class="t-item reveal">
-          <div class="t-period">2008 — Present</div>
-          <div class="t-title">Founder · Counsel &amp; Strategic Advisor</div>
+          <div class="t-period">2008 – 2026</div>
+          <div class="t-title">Founder &amp; CEO · Corporate Attorney &amp; Business Consultant</div>
           <div class="t-org">Amin Consulting, LLC · Boston / New York</div>
-          <div class="t-body">Founded and scaled a corporate law and management consulting practice serving startups to multinationals. Led legal representation on M&amp;A transactions collectively valued at $250M+. Structured cross-border deals between the U.S. and MENA region (Saudi Arabia, UAE, Egypt) totaling $1.5B in transaction value. Negotiated 30+ debt and equity investments between founders and venture capital firms valued at $800M.</div>
+          <div class="t-body">Founded and scaled a corporate law and business consulting firm serving startups to multinationals. Led legal representation on M&amp;A transactions collectively valued at $250M+, integrating AI-driven analytics into deal structuring and risk assessment. Advised on $1.5B of cross-border deals between the U.S. and the MENA region (Saudi Arabia, UAE, Egypt). Structured and negotiated 30+ debt and equity investments between founders and venture firms valued at $800M. Built custom fraud-detection frameworks that recovered $16.8M for a client in an international import and export scheme, and machine-learning review pipelines that cut contract processing time by 65%.</div>
         </div>
         <div class="t-item reveal">
-          <div class="t-period">2015 — 2020</div>
+          <div class="t-period">2020 – Present</div>
+          <div class="t-title">Chairman of the Board (2020 – 2025) · Board Member (2025 – Present)</div>
+          <div class="t-org">Partakers, Inc. · 501(c)(3) Nonprofit · Boston</div>
+          <div class="t-body">Led a criminal justice reform organization to a 2% recidivism rate against a national average near 44%. Set a 10-year strategic growth plan that lifted long-term financial sustainability by 50% and outreach by 80% within four years. Established degree-granting partnerships for incarcerated individuals with Tufts, Emerson, Boston College, Boston University, and Brandeis, and grew the mentor network past 400 volunteers.</div>
+        </div>
+        <div class="t-item reveal">
+          <div class="t-period">2015 – 2020</div>
           <div class="t-title">Outside General Counsel</div>
           <div class="t-org">HOF Capital · New York</div>
-          <div class="t-body">Served as outside general counsel for a $1.2B AUM venture capital firm, providing strategic legal oversight for 100+ portfolio companies across AI, machine learning, Web3, crypto, renewable energy, and fintech. Managed legal processes, due diligence, and post-investment integration for 40+ acquisitions. Established and administered multiple investment funds and funds of funds.</div>
+          <div class="t-body">Incorporated and structured the venture capital firm, then served as Outside General Counsel from formation through $1.2B AUM in its first year to $7B AUM by the close of the engagement. Provided strategic legal oversight for a portfolio of 100+ companies, including investments in Anthropic, Bugatti, and more than 50 fintech, Web3, blockchain, and technology startups. Managed due diligence, compliance, and post-investment integration for 40+ acquisitions, and established and administered multiple funds and funds of funds across the firm's growth.</div>
         </div>
         <div class="t-item reveal">
-          <div class="t-period">2020 — Present</div>
-          <div class="t-title">Chairman, Board of Directors</div>
-          <div class="t-org">Partakers, Inc. — 501(c)(3) Nonprofit</div>
-          <div class="t-body">Led a criminal justice reform organization to a 2% recidivism rate against a national average of approximately 44%. Established cross-institutional degree-granting partnerships with Tufts, Emerson, Boston College, BU, and Brandeis for incarcerated individuals.</div>
-        </div>
-        <div class="t-item reveal">
-          <div class="t-period">2010 — 2015</div>
+          <div class="t-period">2010 – 2015</div>
           <div class="t-title">Senior Associate Attorney</div>
           <div class="t-org">DH Law LLP · Boston</div>
-          <div class="t-body">Guided 45+ tech startups through formation and investment rounds, securing $98M in capital. Represented buyers and sellers in 150+ residential and commercial real estate transactions totaling $450M. Secured 128+ business immigration visas (H-1B, E-1/E-2, L-1A/B, O, EB-5), achieving USCIS EB-5 certification for multiple Regional Centers and driving $490M in foreign investment.</div>
+          <div class="t-body">Guided 45+ tech startups through formation and investment rounds, securing $98M in capital. Represented buyers and sellers in 150+ residential and commercial real estate transactions totaling $450M. Secured 128+ business immigration visas (H-1B, E-1/E-2, L-1A/B, O, EB-5), achieving USCIS EB-5 certification for multiple Regional Centers and driving $490M in foreign investment and 1,000+ U.S. jobs.</div>
         </div>
         <div class="t-item reveal">
           <div class="t-period">2010</div>
           <div class="t-title">Summer Legal Associate</div>
           <div class="t-org">WilmerHale LLP · New York</div>
-          <div class="t-body">Rotated through corporate transactions, bankruptcy and financial restructuring, government regulation, intellectual property, securities litigation, and labor and employment practice groups.</div>
+          <div class="t-body">Selected for a highly competitive summer associate position at a top-tier global firm; rotated through corporate transactions, bankruptcy and financial restructuring, government regulation, intellectual property, securities litigation, and labor and employment practice groups.</div>
+        </div>
+        <div class="t-item reveal">
+          <div class="t-period">2002 – 2008</div>
+          <div class="t-title">Senior Trade Analyst</div>
+          <div class="t-org">Center for Family Business · Bangor, Maine</div>
+          <div class="t-body">Advised family-owned businesses on formation, strategic growth, international trade, regulatory compliance, and tax optimization, producing a 30% increase in profitability and expansion into three new regions. Evaluated investment potential through data-driven analysis of yields and trends, driving a 40% increase in investment returns.</div>
         </div>
       </div>
     </div>
@@ -1222,50 +1451,55 @@ footer {
   <!-- TRANSACTIONS -->
   <section id="transactions">
     <div class="section-inner">
-      <div class="eyebrow reveal"><span class="num">04</span> &nbsp;&nbsp;Notable Transactions</div>
+      <div class="eyebrow reveal"><span class="num">05</span> &nbsp;&nbsp;Notable Transactions</div>
       <h2 class="reveal">A representative slate. Names withheld where <span class="em">discretion</span> requires.</h2>
-      <p class="lead reveal delay-1">Cross-border M&amp;A, venture investment, sovereign procurement, and structured finance — across jurisdictions in the U.S., GCC, EMEA, and Asia.</p>
+      <p class="lead reveal delay-1">Cross-border M&amp;A, venture investment, sovereign procurement, and structured finance across jurisdictions in the U.S., GCC, EMEA, and Asia.</p>
 
       <div class="deals reveal delay-2">
-        <div class="deal">
-          <div class="deal-cat">VC Oversight</div>
-          <div class="deal-val">$4.2B<span class="small"> AUM</span></div>
-          <div class="deal-desc">Outside General Counsel for venture capital firm overseeing 100+ portfolio companies across AI, ML, Web3, crypto, renewable energy, and fintech.</div>
+        <div class="deal tilt">
+          <div class="deal-cat">Venture Capital · Formation to Scale</div>
+          <div class="deal-val">$7B<span class="small"> AUM</span></div>
+          <div class="deal-desc">Incorporated and structured HOF Capital and served as its Outside General Counsel from formation through $1.2B AUM in year one to $7B AUM. Legal oversight for 100+ portfolio companies, including Anthropic and Bugatti.</div>
         </div>
-        <div class="deal">
+        <div class="deal tilt">
           <div class="deal-cat">Cross-Border Investment</div>
           <div class="deal-val">$300M</div>
           <div class="deal-desc">Structured and negotiated a multi-tiered investment in a global telecommunications operator on behalf of a group of UHNW investors.</div>
         </div>
-        <div class="deal">
+        <div class="deal tilt">
           <div class="deal-cat">Sovereign Project</div>
           <div class="deal-val">$100M</div>
-          <div class="deal-desc">Led a public infrastructure project in Saudi Arabia — securing U.S. suppliers, structuring procurement, and overseeing full implementation.</div>
+          <div class="deal-desc">Led a public infrastructure project in Saudi Arabia, securing U.S. suppliers, structuring procurement, and overseeing full implementation.</div>
         </div>
-        <div class="deal">
+        <div class="deal tilt">
           <div class="deal-cat">Fortune 500 Procurement</div>
           <div class="deal-val">$35M</div>
           <div class="deal-desc">Represented Thermo Fisher Scientific in a Saudi government procurement project involving construction and furnishing of medical and educational facilities.</div>
         </div>
-        <div class="deal">
+        <div class="deal tilt">
           <div class="deal-cat">Real Estate · Private Wealth</div>
           <div class="deal-val">$80M<span class="small">+</span></div>
           <div class="deal-desc">Structured the acquisition of New York real estate for a member of the Saudi Royal Family, employing offshore trust structures for tax optimization.</div>
         </div>
-        <div class="deal">
+        <div class="deal tilt">
           <div class="deal-cat">EB-5 Regional Center</div>
           <div class="deal-val">$100M</div>
           <div class="deal-desc">Created an EB-5 Regional Center in the Northeast U.S., raising capital for urban redevelopment with USCIS certification.</div>
         </div>
-        <div class="deal">
+        <div class="deal tilt">
           <div class="deal-cat">Education Sector M&amp;A</div>
           <div class="deal-val">$34M</div>
           <div class="deal-desc">Represented a Chinese conglomerate in the acquisition of U.S.-based ESL institutions, securing DHS approval for SEVP certification.</div>
         </div>
-        <div class="deal">
+        <div class="deal tilt">
           <div class="deal-cat">Fraud Recovery</div>
           <div class="deal-val">$24M<span class="small">+</span></div>
-          <div class="deal-desc">Directed a comprehensive fraud investigation, recovering capital for a Libyan businessman defrauded in an international import / export scheme.</div>
+          <div class="deal-desc">Directed a comprehensive fraud investigation, recovering capital for a Libyan businessman defrauded in an international import and export scheme.</div>
+        </div>
+        <div class="deal tilt">
+          <div class="deal-cat">Private Wealth Advisory</div>
+          <div class="deal-val">350%<span class="small"> growth</span></div>
+          <div class="deal-desc">Took a UHNW client portfolio from a negative 38% annual return in 2008 to 350% revenue growth ($35M net) through data-driven strategy, with 95% client retention.</div>
         </div>
       </div>
     </div>
@@ -1274,7 +1508,7 @@ footer {
   <!-- EDUCATION -->
   <section id="education">
     <div class="section-inner">
-      <div class="eyebrow reveal"><span class="num">05</span> &nbsp;&nbsp;Education &amp; Credentials</div>
+      <div class="eyebrow reveal"><span class="num">06</span> &nbsp;&nbsp;Education &amp; Credentials</div>
       <h2 class="reveal">Trained at the <span class="em">intersection</span>.</h2>
 
       <div style="margin-top: 64px;">
@@ -1303,7 +1537,7 @@ footer {
             <div class="edu-loc">Boston, MA · 2009–2012</div>
           </div>
           <div>
-            <div class="edu-degree">Juris Doctor — <em>Magna Cum Laude</em>, Top 1%, GPA 3.86 / 4.00</div>
+            <div class="edu-degree">Juris Doctor, <em>Magna Cum Laude</em>, Top 1%, GPA 3.86 / 4.00</div>
             <div class="edu-detail">Trustee Academic Scholarship (highest GPA). Senior Editor, New England Law Review. CALI Awards in Corporate Finance, Securities Regulation, Law of Entrepreneurship, and Law &amp; Ethics of Lawyering.</div>
           </div>
         </div>
@@ -1313,7 +1547,7 @@ footer {
             <div class="edu-loc">Bangor, ME · 2006–2008</div>
           </div>
           <div>
-            <div class="edu-degree">M.B.A. — <em>Summa Cum Laude</em>, GPA 3.68 / 4.00</div>
+            <div class="edu-degree">M.B.A., <em>Summa Cum Laude</em>, GPA 3.68 / 4.00</div>
             <div class="edu-detail">Graduate Business Student of the Year (highest GPA).</div>
           </div>
         </div>
@@ -1329,7 +1563,7 @@ footer {
       </div>
 
       <div class="kicker reveal" style="margin-top: 64px;">
-        Google Cloud Certified — Professional Cloud Architect (Data, Machine Learning &amp; AI). Licensed U.S. Attorney.
+        Google Cloud Certified Professional Cloud Architect (Data, Machine Learning &amp; AI). Anthropic certifications. Licensed U.S. Attorney.
       </div>
     </div>
   </section>
@@ -1337,7 +1571,7 @@ footer {
   <!-- PUBLICATIONS -->
   <section id="publications">
     <div class="section-inner">
-      <div class="eyebrow reveal"><span class="num">06</span> &nbsp;&nbsp;Selected Publications</div>
+      <div class="eyebrow reveal"><span class="num">07</span> &nbsp;&nbsp;Selected Publications</div>
       <h2 class="reveal">A two-decade record of <span class="em">written authority</span> across Islamic finance, cross-border M&amp;A, and EB-5 capital structures.</h2>
 
       <div class="pubs reveal delay-1" style="margin-top: 48px;">
@@ -1348,7 +1582,7 @@ footer {
         </div>
         <div class="pub">
           <div class="pub-year">2023</div>
-          <div class="pub-title">Due Diligence in Islamic Finance Instruments — Principles and Avoiding Common Pitfalls</div>
+          <div class="pub-title">Due Diligence in Islamic Finance Instruments: Principles and Avoiding Common Pitfalls</div>
           <div class="pub-venue">Peer-Reviewed Journal</div>
         </div>
         <div class="pub">
@@ -1376,7 +1610,7 @@ footer {
       <div style="margin-top: 80px;">
         <div class="eyebrow reveal">Affiliations</div>
         <div class="role-body reveal delay-1" style="font-size: 16px;">
-          <p>Chairman, Middle East Division, American Bar Association (2013–2020) · Vice-Chairman, International Commercial Transactions Committee, ABA (2013–2018) · Chairman, Islamic Finance Committee, International Law Division, ABA (2013–2019) · Regent Board Member, Immigration &amp; Naturalization Division, ABA (2020–2022) · Global Independent Director, Target International Schools (2014–2019).</p>
+          <p>Chairman of the Board, Partakers, Inc. (2020–2025; current Board Member) · Chairman, Middle East Division, American Bar Association (2013–2020) · Vice-Chairman, International Commercial Transactions Committee, ABA (2013–2018) · Chairman, Islamic Finance Committee, International Law Division, ABA (2013–2019) · Regent Board Member, Immigration &amp; Naturalization Division, ABA (2020–2022) · Global Independent Director, Target International Schools (2014–2019).</p>
         </div>
       </div>
     </div>
@@ -1385,12 +1619,12 @@ footer {
   <!-- CONTACT -->
   <section id="contact" class="cta-section">
     <div class="cta-inner">
-      <div class="eyebrow reveal"><span class="num">07</span> &nbsp;&nbsp;Engagement</div>
-      <h2 class="reveal">Selectively open to <span class="em">counsel</span>, <span class="em">advisory</span>, and frontier AI evaluation work.</h2>
-      <p class="lead reveal delay-1">For board, general counsel, transactional, or frontier-AI engagements, the most direct route is email. Replies come from Wasim personally — typically within a business day.</p>
+      <div class="eyebrow reveal"><span class="num">08</span> &nbsp;&nbsp;Engagement</div>
+      <h2 class="reveal">Selectively open to <span class="em">counsel</span>, <span class="em">advisory</span>, forward-deployed AI, and frontier evaluation work.</h2>
+      <p class="lead reveal delay-1">For board, general counsel, transactional, enterprise AI deployment, or frontier-lab engagements, the most direct route is email. Replies come from Wasim personally, typically within a business day.</p>
 
       <div class="btn-row reveal delay-2">
-        <a href="mailto:wasim@resurgam.cc" class="btn btn-primary">Begin a Conversation</a>
+        <a href="mailto:wasim@fidempraxis.com" class="btn btn-primary">Begin a Conversation</a>
         <a href="000_Wasim_Amin_Resume_2026.pdf" download class="btn">Download Resume</a>
         <a href="Wasim_Amin_Deal_Sheet.pdf" download class="btn">Download Deal Sheet</a>
         <a href="https://linkedin.com/in/aminwasim" target="_blank" rel="noopener" class="btn">LinkedIn Profile</a>
@@ -1399,7 +1633,7 @@ footer {
       <div class="cta-meta">
         <div>
           <div class="cta-label">Email</div>
-          <div class="cta-val"><a href="mailto:wasim@resurgam.cc">wasim@resurgam.cc</a></div>
+          <div class="cta-val"><a href="mailto:wasim@fidempraxis.com">wasim@fidempraxis.com</a></div>
         </div>
         <div>
           <div class="cta-label">Direct</div>
@@ -1413,6 +1647,14 @@ footer {
           <div class="cta-label">Admitted</div>
           <div class="cta-val">U.S. Attorney</div>
         </div>
+        <div>
+          <div class="cta-label">Practice</div>
+          <div class="cta-val"><a href="https://fidempraxis.com" target="_blank" rel="noopener">fidempraxis.com</a></div>
+        </div>
+        <div>
+          <div class="cta-label">Academy</div>
+          <div class="cta-val"><a href="https://smestandard.com" target="_blank" rel="noopener">smestandard.com</a></div>
+        </div>
       </div>
     </div>
   </section>
@@ -1423,8 +1665,10 @@ footer {
   <div class="foot-inner">
     <div>© 2026 Wasim M. Amin · All rights reserved</div>
     <div>
-      <a href="mailto:wasim@resurgam.cc">Email</a>
+      <a href="mailto:wasim@fidempraxis.com">Email</a>
       <a href="https://linkedin.com/in/aminwasim" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://fidempraxis.com" target="_blank" rel="noopener">Fidem Praxis</a>
+      <a href="https://smestandard.com" target="_blank" rel="noopener">SME Standard</a>
       <a href="000_Wasim_Amin_Resume_2026.pdf" download>Resume</a>
       <a href="Wasim_Amin_Deal_Sheet.pdf" download>Deal Sheet</a>
     </div>
@@ -1443,9 +1687,13 @@ footer {
 <script type="module">
 import * as THREE from 'three';
 
-// ---------- Detect reduced motion ----------
+// ---------- Capability detection ----------
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isMobile = window.innerWidth < 768;
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+// Pointer-driven effects (parallax, spin, particle push, satellite glow, card tilt)
+// only run for a real cursor on a device that has not asked for reduced motion.
+const interactive = !prefersReduced && finePointer && !isMobile;
 
 // ---------- Scene setup ----------
 const canvas = document.getElementById('bg');
@@ -1489,7 +1737,7 @@ scene.add(rimLight);
 const coreGroup = new THREE.Group();
 scene.add(coreGroup);
 
-// Inner solid - polished icosahedron in antique gold
+// Inner solid: polished icosahedron in antique gold
 const coreGeo = new THREE.IcosahedronGeometry(2.4, 0);
 const coreMat = new THREE.MeshPhysicalMaterial({
   color: 0xc9a961,
@@ -1505,7 +1753,7 @@ const coreMat = new THREE.MeshPhysicalMaterial({
 const core = new THREE.Mesh(coreGeo, coreMat);
 coreGroup.add(core);
 
-// Outer wireframe shell - the "due diligence" layer
+// Outer wireframe shell: the "due diligence" layer
 const shellGeo = new THREE.IcosahedronGeometry(2.95, 1);
 const shellMat = new THREE.MeshBasicMaterial({
   color: 0xc9a961,
@@ -1527,6 +1775,75 @@ const auraMat = new THREE.MeshBasicMaterial({
 const aura = new THREE.Mesh(auraGeo, auraMat);
 coreGroup.add(aura);
 
+// ---------- Discipline satellites: Law · Strategy · The Model ----------
+// Three small bodies on inclined orbits around the core. Each brightens and
+// swells when the cursor passes near it, and the orbits quicken when the core
+// is spun. The forms echo the three disciplines: an octahedron (precision),
+// a dodecahedron (structure), and a wireframe sphere (the network).
+function makeHaloTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const ctx = c.getContext('2d');
+  const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0.0, 'rgba(255,255,255,1)');
+  g.addColorStop(0.3, 'rgba(255,255,255,0.35)');
+  g.addColorStop(1.0, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 128, 128);
+  return new THREE.CanvasTexture(c);
+}
+const haloTexture = makeHaloTexture();
+
+function makeRing(radius, color, opacity) {
+  const pts = [];
+  const N = 160;
+  for (let i = 0; i <= N; i++) {
+    const a = (i / N) * Math.PI * 2;
+    pts.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+  return new THREE.Line(geo, mat);
+}
+
+const orbitGroup = new THREE.Group();
+coreGroup.add(orbitGroup);
+
+const satelliteDefs = [
+  { name: 'law',      geo: new THREE.OctahedronGeometry(0.42, 0),   color: 0xc9a961, radius: 4.7, tilt: [ 0.35, 0,  0.15], speed: 0.30, phase: 0.0, wire: false },
+  { name: 'strategy', geo: new THREE.DodecahedronGeometry(0.38, 0), color: 0x7593b8, radius: 5.7, tilt: [-0.62, 0,  0.40], speed: 0.21, phase: 2.1, wire: false },
+  { name: 'model',    geo: new THREE.IcosahedronGeometry(0.48, 1),  color: 0xe0c279, radius: 6.8, tilt: [ 1.05, 0, -0.30], speed: 0.16, phase: 4.2, wire: true  }
+];
+
+const satellites = satelliteDefs.map(def => {
+  const pivot = new THREE.Group();
+  pivot.rotation.set(def.tilt[0], def.tilt[1], def.tilt[2]);
+  orbitGroup.add(pivot);
+
+  const ring = makeRing(def.radius, def.color, 0.13);
+  pivot.add(ring);
+
+  const mat = def.wire
+    ? new THREE.MeshBasicMaterial({ color: def.color, wireframe: true, transparent: true, opacity: 0.7 })
+    : new THREE.MeshPhysicalMaterial({
+        color: def.color, metalness: 0.9, roughness: 0.22,
+        clearcoat: 0.9, clearcoatRoughness: 0.1,
+        emissive: def.color, emissiveIntensity: 0.08
+      });
+  const mesh = new THREE.Mesh(def.geo, mat);
+  pivot.add(mesh);
+
+  const haloMat = new THREE.SpriteMaterial({
+    map: haloTexture, color: def.color, transparent: true, opacity: 0.12,
+    blending: THREE.AdditiveBlending, depthWrite: false
+  });
+  const halo = new THREE.Sprite(haloMat);
+  halo.scale.setScalar(2.2);
+  pivot.add(halo);
+
+  return { def, pivot, ring, mesh, mat, halo, haloMat, angle: def.phase, hover: 0 };
+});
+
 // ---------- Secondary form: torus knot that emerges later ----------
 const knotGeo = new THREE.TorusKnotGeometry(1.4, 0.18, 200, 24, 2, 3);
 const knotMat = new THREE.MeshPhysicalMaterial({
@@ -1542,8 +1859,15 @@ knot.position.set(6, -2, -4);
 scene.add(knot);
 
 // ---------- Particle field with custom shader ----------
+// Each particle carries four positions: its resting place in the cloud, and
+// three "formations" it can be pulled into as particular sections scroll into
+// view: a double helix (the model), an orbital disc (the ventures), and a
+// cubic lattice (the ledger of transactions). The vertex shader blends them.
 const particleCount = isMobile ? 1400 : 2800;
 const positions = new Float32Array(particleCount * 3);
+const helixPos  = new Float32Array(particleCount * 3);
+const ringPos   = new Float32Array(particleCount * 3);
+const latticePos= new Float32Array(particleCount * 3);
 const colors = new Float32Array(particleCount * 3);
 const sizes = new Float32Array(particleCount);
 const speeds = new Float32Array(particleCount);
@@ -1553,8 +1877,15 @@ const goldColor = new THREE.Color(0xc9a961);
 const blueColor = new THREE.Color(0x4a7fc1);
 const warmColor = new THREE.Color(0xe0c279);
 
+// The lattice is a broad, shallow wall of points (rows x columns x a few
+// layers) so it reads as a ledger grid from the camera rather than a cube.
+const latZ = 5;
+const latY = isMobile ? 10 : 14;
+const latX = Math.floor(particleCount / (latY * latZ));
+const latSx = 0.72, latSy = 0.78, latSz = 0.9;
+
 for (let i = 0; i < particleCount; i++) {
-  // Distribute in a flattened ellipsoid for cinematic feel
+  // Resting cloud: a flattened ellipsoid for cinematic depth
   const r = 6 + Math.pow(Math.random(), 0.6) * 36;
   const theta = Math.random() * Math.PI * 2;
   const phi = Math.acos(2 * Math.random() - 1);
@@ -1562,6 +1893,35 @@ for (let i = 0; i < particleCount; i++) {
   positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta) * 1.2;
   positions[i * 3 + 1] = r * Math.cos(phi) * 0.7;
   positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta) * 1.2 - 6;
+
+  // Formation A: double helix, 16 units tall, three turns
+  const u = i / particleCount;
+  const strand = i % 2;
+  const hAngle = u * Math.PI * 6 + strand * Math.PI;
+  const hRadius = 4.1 + (Math.random() - 0.5) * 0.5;
+  helixPos[i * 3]     = Math.cos(hAngle) * hRadius;
+  helixPos[i * 3 + 1] = (u - 0.5) * 16 + (Math.random() - 0.5) * 0.25;
+  helixPos[i * 3 + 2] = Math.sin(hAngle) * hRadius;
+
+  // Formation B: a tilted orbital disc with a soft inner edge
+  const dAngle = Math.random() * Math.PI * 2;
+  const dRadius = 6.5 + Math.pow(Math.random(), 1.6) * 5.5;
+  const dx = Math.cos(dAngle) * dRadius;
+  const dz = Math.sin(dAngle) * dRadius;
+  const dy = (Math.random() - 0.5) * 0.5;
+  const tiltA = 0.52; // ~30 degrees
+  ringPos[i * 3]     = dx;
+  ringPos[i * 3 + 1] = dy * Math.cos(tiltA) - dz * Math.sin(tiltA);
+  ringPos[i * 3 + 2] = dy * Math.sin(tiltA) + dz * Math.cos(tiltA);
+
+  // Formation C: the ledger, a wall of ordered rows and columns behind the core
+  const li = i % (latX * latY * latZ);
+  const lx = li % latX;
+  const ly = Math.floor(li / latX) % latY;
+  const lz = Math.floor(li / (latX * latY));
+  latticePos[i * 3]     = (lx - (latX - 1) / 2) * latSx;
+  latticePos[i * 3 + 1] = (ly - (latY - 1) / 2) * latSy;
+  latticePos[i * 3 + 2] = (lz - (latZ - 1) / 2) * latSz - 4.0;
 
   // Mostly gold, occasionally cool blue, occasionally warm bright
   const roll = Math.random();
@@ -1581,18 +1941,27 @@ for (let i = 0; i < particleCount; i++) {
 
 const particleGeo = new THREE.BufferGeometry();
 particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+particleGeo.setAttribute('aHelix',   new THREE.BufferAttribute(helixPos, 3));
+particleGeo.setAttribute('aRing',    new THREE.BufferAttribute(ringPos, 3));
+particleGeo.setAttribute('aLattice', new THREE.BufferAttribute(latticePos, 3));
 particleGeo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
 particleGeo.setAttribute('aSize',    new THREE.BufferAttribute(sizes, 1));
 particleGeo.setAttribute('aSpeed',   new THREE.BufferAttribute(speeds, 1));
 particleGeo.setAttribute('aPhase',   new THREE.BufferAttribute(phases, 1));
 
-// Custom shader material for nice glowing particles
 const particleMat = new THREE.ShaderMaterial({
   uniforms: {
-    uTime:  { value: 0 },
-    uPixelRatio: { value: renderer.getPixelRatio() }
+    uTime:          { value: 0 },
+    uPixelRatio:    { value: renderer.getPixelRatio() },
+    uMorph:         { value: new THREE.Vector3(0, 0, 0) },   // helix, ring, lattice weights
+    uCenterY:       { value: 0 },                            // where the core currently sits
+    uMouse:         { value: new THREE.Vector3(0, -999, 0) },// cursor, in particle-local space
+    uMouseStrength: { value: 0 }
   },
   vertexShader: `
+    attribute vec3 aHelix;
+    attribute vec3 aRing;
+    attribute vec3 aLattice;
     attribute float aSize;
     attribute float aSpeed;
     attribute float aPhase;
@@ -1600,23 +1969,40 @@ const particleMat = new THREE.ShaderMaterial({
     varying float vAlpha;
     uniform float uTime;
     uniform float uPixelRatio;
+    uniform vec3  uMorph;
+    uniform float uCenterY;
+    uniform vec3  uMouse;
+    uniform float uMouseStrength;
 
     void main() {
       vColor = color;
-      vec3 pos = position;
 
-      // Gentle drift
-      pos.y += sin(uTime * aSpeed * 0.4 + aPhase) * 0.3;
-      pos.x += cos(uTime * aSpeed * 0.3 + aPhase * 1.3) * 0.2;
+      // Blend the resting cloud toward whichever formation is active
+      float wSum = clamp(uMorph.x + uMorph.y + uMorph.z, 0.0, 1.0);
+      vec3 form = aHelix * uMorph.x + aRing * uMorph.y + aLattice * uMorph.z;
+      form /= max(uMorph.x + uMorph.y + uMorph.z, 0.0001);
+      form += vec3(0.0, uCenterY, -1.0);
+      vec3 pos = mix(position, form, wSum);
+
+      // Gentle drift, damped while held in formation
+      float drift = 1.0 - wSum * 0.9;
+      pos.y += sin(uTime * aSpeed * 0.4 + aPhase) * 0.3 * drift;
+      pos.x += cos(uTime * aSpeed * 0.3 + aPhase * 1.3) * 0.2 * drift;
+
+      // Cursor pressure: particles near the pointer ease away from it
+      vec3 toM = pos - uMouse;
+      float dxy = length(toM.xy);
+      float push = smoothstep(5.5, 0.0, dxy) * smoothstep(7.0, 0.0, abs(toM.z)) * uMouseStrength;
+      pos.xy += normalize(toM.xy + vec2(0.0001, 0.0)) * push * 1.8;
 
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
       // Size attenuation with subtle pulse
       float pulse = 0.7 + 0.3 * sin(uTime * aSpeed + aPhase);
-      gl_PointSize = aSize * pulse * uPixelRatio * (60.0 / -mvPosition.z);
+      gl_PointSize = aSize * pulse * uPixelRatio * (60.0 / -mvPosition.z) * (1.0 + push * 0.6);
 
-      // Fade with distance from camera
-      vAlpha = smoothstep(60.0, 15.0, length(mvPosition.xyz));
+      // Fade with distance from camera; formations and cursor-touched points read brighter
+      vAlpha = smoothstep(60.0, 15.0, length(mvPosition.xyz)) * (1.0 + wSum * 0.35 + push * 0.8);
 
       gl_Position = projectionMatrix * mvPosition;
     }
@@ -1649,26 +2035,26 @@ const particles = new THREE.Points(particleGeo, particleMat);
 scene.add(particles);
 
 // ---------- Camera waypoint path ----------
-// Map scroll progress (0-1) to camera positions and look-at targets
+// Scroll progress (0 to 1) maps onto a flight path, one waypoint per section.
 const waypoints = [
-  { pos: new THREE.Vector3( 0,    0,   16), look: new THREE.Vector3( 0, 0,  0) },  // 0 hero
-  { pos: new THREE.Vector3( 3,    2,   13), look: new THREE.Vector3( 0, 1,  0) },  // 1 practice
-  { pos: new THREE.Vector3(-4,    4,   10), look: new THREE.Vector3( 0, 3, -2) },  // 2 ai work
-  { pos: new THREE.Vector3( 5,    7,    9), look: new THREE.Vector3( 1, 6, -3) },  // 3 career
-  { pos: new THREE.Vector3(-3,   10,   12), look: new THREE.Vector3( 0, 9, -2) },  // 4 transactions
-  { pos: new THREE.Vector3( 4,   13,    8), look: new THREE.Vector3( 0, 12, 0) },  // 5 education
-  { pos: new THREE.Vector3(-2,   16,   10), look: new THREE.Vector3( 0, 15, 0) },  // 6 publications
-  { pos: new THREE.Vector3( 0,   19,   14), look: new THREE.Vector3( 0, 18, 0) }   // 7 contact
+  { pos: new THREE.Vector3( 0,    0,   16), look: new THREE.Vector3( 0,    0,  0) },  // 0 hero
+  { pos: new THREE.Vector3( 3,    2,   13), look: new THREE.Vector3( 0,    1,  0) },  // 1 practice
+  { pos: new THREE.Vector3(-4,    4,   10), look: new THREE.Vector3( 0,    3, -2) },  // 2 ai work
+  { pos: new THREE.Vector3( 4,  6.5,   11), look: new THREE.Vector3( 0.5,5.5, -1) },  // 3 ventures
+  { pos: new THREE.Vector3( 5,    9,    9), look: new THREE.Vector3( 1,    8, -3) },  // 4 career
+  { pos: new THREE.Vector3(-3,   12,   12), look: new THREE.Vector3( 0,   11, -2) },  // 5 transactions
+  { pos: new THREE.Vector3( 4,   15,    8), look: new THREE.Vector3( 0,   14,  0) },  // 6 education
+  { pos: new THREE.Vector3(-2,   18,   10), look: new THREE.Vector3( 0,   17,  0) },  // 7 publications
+  { pos: new THREE.Vector3( 0,   21,   14), look: new THREE.Vector3( 0,   20,  0) }   // 8 contact
 ];
+const CORE_TRAVEL = 20; // how far the core rises over the full scroll
 
 function getCameraAtProgress(t) {
-  // t in [0,1]
   const segs = waypoints.length - 1;
   const s = Math.min(t * segs, segs - 0.0001);
   const i = Math.floor(s);
   const f = s - i;
-  // Smoothstep easing
-  const e = f * f * (3 - 2 * f);
+  const e = f * f * (3 - 2 * f); // smoothstep easing
   const a = waypoints[i];
   const b = waypoints[i + 1];
   return {
@@ -1677,32 +2063,113 @@ function getCameraAtProgress(t) {
   };
 }
 
-// ---------- Scroll + mouse state ----------
+// ---------- Section-driven formations ----------
+// Which section pulls the particles into which formation. Bands are measured
+// from the live DOM so the choreography survives content edits.
+const formationSections = [
+  { id: 'ai',           axis: 'x' },  // double helix
+  { id: 'ventures',     axis: 'y' },  // orbital disc
+  { id: 'transactions', axis: 'z' }   // lattice
+];
+let sectionBands = [];
+let scrollTotal = 1;
+
+function measureSections() {
+  const vh = window.innerHeight;
+  scrollTotal = Math.max(document.documentElement.scrollHeight - vh, 1);
+  sectionBands = formationSections.map(f => {
+    const el = document.getElementById(f.id);
+    if (!el) return null;
+    const rect = el.getBoundingClientRect();
+    const top = rect.top + window.scrollY;
+    const h = rect.height;
+    return { axis: f.axis, center: top + h / 2 - vh / 2, half: h / 2 + vh * 0.15 };
+  }).filter(Boolean);
+}
+
+const morphTarget = new THREE.Vector3();
+function updateMorph(scrollY) {
+  morphTarget.set(0, 0, 0);
+  for (const b of sectionBands) {
+    const d = Math.abs(scrollY - b.center);
+    const w = 1 - THREE.MathUtils.smoothstep(d, b.half * 0.45, b.half);
+    morphTarget[b.axis] = Math.max(morphTarget[b.axis], w);
+  }
+  particleMat.uniforms.uMorph.value.lerp(morphTarget, ease(0.05));
+}
+
+// ---------- Scroll + pointer state ----------
 let scrollProgress = 0;
 let targetScrollProgress = 0;
 let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
+const pointerNdc = new THREE.Vector2(0, 0);
+let pointerActive = false;
+let pointerDown = false;
+let lastPX = null, lastPY = null;
+
+// Angular momentum applied to the core by cursor movement (a flick nudges it,
+// a press-and-drag spins it hard), decaying each frame.
+const spinVel = { x: 0, y: 0 };
+const spin = { x: 0, y: 0 };
 
 function onScroll() {
-  const total = document.body.scrollHeight - window.innerHeight;
-  targetScrollProgress = total > 0 ? window.scrollY / total : 0;
+  targetScrollProgress = scrollTotal > 0 ? window.scrollY / scrollTotal : 0;
 
-  // Nav style
   const nav = document.getElementById('nav');
   if (window.scrollY > 60) nav.classList.add('scrolled');
   else nav.classList.remove('scrolled');
 
-  // Progress bar
   document.getElementById('progress').style.width = (targetScrollProgress * 100) + '%';
 }
 window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
 
-if (!prefersReduced && !isMobile) {
+if (interactive) {
   window.addEventListener('pointermove', (e) => {
     targetMouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
     targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    pointerNdc.set(targetMouseX, -targetMouseY);
+    pointerActive = true;
+
+    if (lastPX !== null) {
+      const dx = (e.clientX - lastPX) / window.innerWidth;
+      const dy = (e.clientY - lastPY) / window.innerHeight;
+      const k = pointerDown ? 2.6 : 0.38;
+      spinVel.y += dx * k;
+      spinVel.x += dy * k;
+      const mag = Math.hypot(spinVel.x, spinVel.y);
+      if (mag > 0.22) { spinVel.x *= 0.22 / mag; spinVel.y *= 0.22 / mag; }
+    }
+    lastPX = e.clientX; lastPY = e.clientY;
   });
+  window.addEventListener('pointerdown', (e) => {
+    // Only treat a press on open background as a grab, so links and text behave normally
+    if (!e.target.closest('a, button, input, textarea, select, .tilt')) pointerDown = true;
+  });
+  window.addEventListener('pointerup', () => { pointerDown = false; });
+  document.addEventListener('mouseleave', () => { pointerActive = false; pointerDown = false; lastPX = lastPY = null; });
+}
+
+// Cursor projected into the particle field, for the pressure effect
+const rayOrigin = new THREE.Vector3();
+const rayDir = new THREE.Vector3();
+const mouseWorld = new THREE.Vector3();
+function updateMouseUniform() {
+  const u = particleMat.uniforms;
+  if (!interactive || !pointerActive) {
+    u.uMouseStrength.value += (0 - u.uMouseStrength.value) * ease(0.08);
+    return;
+  }
+  rayOrigin.setFromMatrixPosition(camera.matrixWorld);
+  rayDir.set(pointerNdc.x, pointerNdc.y, 0.5).unproject(camera).sub(rayOrigin).normalize();
+  const planeZ = -1.0;
+  if (Math.abs(rayDir.z) < 1e-4) return;
+  const tt = (planeZ - rayOrigin.z) / rayDir.z;
+  if (tt < 0) return;
+  mouseWorld.copy(rayOrigin).addScaledVector(rayDir, tt);
+  particles.worldToLocal(mouseWorld);
+  u.uMouse.value.lerp(mouseWorld, ease(0.18));
+  u.uMouseStrength.value += (1 - u.uMouseStrength.value) * ease(0.08);
 }
 
 // ---------- Resize ----------
@@ -1711,59 +2178,108 @@ function onResize() {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
   particleMat.uniforms.uPixelRatio.value = renderer.getPixelRatio();
+  measureSections();
+  onScroll();
 }
 window.addEventListener('resize', onResize);
+measureSections();
+onScroll();
+// Re-measure once fonts and the embedded animation have settled layout
+window.addEventListener('load', () => { measureSections(); onScroll(); });
+setTimeout(() => { measureSections(); onScroll(); }, 1500);
 
 // ---------- Animation loop ----------
 const clock = new THREE.Clock();
 const tempVec = new THREE.Vector3();
+const projVec = new THREE.Vector3();
+
+// Smoothing factors are tuned for 60 fps; this keeps the same feel at any frame rate.
+let frameScale = 1;
+const ease = (k) => 1 - Math.pow(1 - k, frameScale);
 
 function tick() {
+  const dt = Math.min(clock.getDelta(), 0.1);
   const t = clock.getElapsedTime();
+  frameScale = dt * 60;
 
-  // Lerp scroll
-  scrollProgress += (targetScrollProgress - scrollProgress) * 0.06;
-  mouseX += (targetMouseX - mouseX) * 0.05;
-  mouseY += (targetMouseY - mouseY) * 0.05;
+  // Smooth scroll and pointer
+  scrollProgress += (targetScrollProgress - scrollProgress) * ease(0.06);
+  mouseX += (targetMouseX - mouseX) * ease(0.05);
+  mouseY += (targetMouseY - mouseY) * ease(0.05);
 
-  // Update shader time
+  // Spin momentum decays
+  spin.x += spinVel.x * frameScale;
+  spin.y += spinVel.y * frameScale;
+  const decay = Math.pow(0.955, frameScale);
+  spinVel.x *= decay;
+  spinVel.y *= decay;
+  const spinSpeed = Math.hypot(spinVel.x, spinVel.y);
+
+  // Shader time + formation blend + cursor
   particleMat.uniforms.uTime.value = t;
+  particleMat.uniforms.uCenterY.value = scrollProgress * CORE_TRAVEL;
+  updateMorph(scrollProgress * scrollTotal);
+  updateMouseUniform();
 
-  // Camera path from waypoints
+  // Camera path from waypoints, with pointer parallax
   const cam = getCameraAtProgress(scrollProgress);
-  // Add mouse parallax to camera position
   cam.pos.x += mouseX * 1.4;
   cam.pos.y += -mouseY * 0.8;
-  camera.position.lerp(cam.pos, 0.08);
+  camera.position.lerp(cam.pos, ease(0.08));
 
-  // Smooth look-at
   tempVec.copy(cam.look);
-  // Slight target offset by mouse for liveliness
   tempVec.x += mouseX * 0.3;
   tempVec.y += -mouseY * 0.2;
   camera.lookAt(tempVec);
 
-  // Core: continuous slow rotation
-  core.rotation.x = t * 0.12;
-  core.rotation.y = t * 0.18;
-  shell.rotation.x = -t * 0.08;
-  shell.rotation.y = -t * 0.11;
+  // Core: slow rotation plus whatever momentum the cursor has lent it
+  core.rotation.x = t * 0.12 + spin.x;
+  core.rotation.y = t * 0.18 + spin.y;
+  shell.rotation.x = -t * 0.08 - spin.x * 0.6;
+  shell.rotation.y = -t * 0.11 - spin.y * 0.6;
   shell.rotation.z = t * 0.05;
-  aura.rotation.y = t * 0.06;
-  aura.rotation.x = -t * 0.04;
+  aura.rotation.y = t * 0.06 + spin.y * 0.3;
+  aura.rotation.x = -t * 0.04 + spin.x * 0.3;
 
-  // Core group moves vertically with scroll so it stays in frame
-  coreGroup.position.y = scrollProgress * 18;
-  // Subtle scale pulse
+  // Core group rises with scroll so it stays in frame
+  coreGroup.position.y = scrollProgress * CORE_TRAVEL;
   const pulse = 1 + Math.sin(t * 0.7) * 0.03;
   coreGroup.scale.setScalar(pulse);
 
+  // Satellites: orbit, tumble, and respond to the cursor
+  const aspect = window.innerHeight / window.innerWidth;
+  for (const s of satellites) {
+    s.angle += dt * s.def.speed * (1 + spinSpeed * 14);
+    const x = Math.cos(s.angle) * s.def.radius;
+    const z = Math.sin(s.angle) * s.def.radius;
+    s.mesh.position.set(x, 0, z);
+    s.halo.position.set(x, 0, z);
+    s.mesh.rotation.x += dt * 0.55;
+    s.mesh.rotation.y += dt * 0.85;
+
+    let target = 0;
+    if (interactive && pointerActive) {
+      projVec.setFromMatrixPosition(s.mesh.matrixWorld).project(camera);
+      const dx = projVec.x - pointerNdc.x;
+      const dy = (projVec.y - pointerNdc.y) * aspect;
+      target = THREE.MathUtils.clamp(1 - Math.hypot(dx, dy) / 0.14, 0, 1);
+    }
+    s.hover += (target - s.hover) * ease(0.12);
+
+    s.mesh.scale.setScalar(1 + s.hover * 0.6);
+    s.haloMat.opacity = 0.12 + s.hover * 0.6;
+    s.halo.scale.setScalar(2.2 + s.hover * 1.8);
+    s.ring.material.opacity = 0.13 + s.hover * 0.32;
+    if (s.def.wire) s.mat.opacity = 0.7 + s.hover * 0.3;
+    else s.mat.emissiveIntensity = 0.08 + s.hover * 0.7;
+  }
+  orbitGroup.rotation.y = t * 0.03 + spin.y * 0.15;
+
   // Knot fades in around mid-scroll, drifts
-  knot.position.y = scrollProgress * 18 - 3 + Math.sin(t * 0.3) * 0.4;
+  knot.position.y = scrollProgress * CORE_TRAVEL - 3 + Math.sin(t * 0.3) * 0.4;
   knot.position.x = 6 + Math.cos(t * 0.2) * 0.6;
-  knot.rotation.x = t * 0.3;
-  knot.rotation.y = t * 0.2;
-  // Fade based on scroll - appears mid-page
+  knot.rotation.x = t * 0.3 + spin.x * 0.4;
+  knot.rotation.y = t * 0.2 + spin.y * 0.4;
   knotMat.opacity = THREE.MathUtils.smoothstep(scrollProgress, 0.25, 0.5) * (1 - THREE.MathUtils.smoothstep(scrollProgress, 0.75, 0.95)) * 0.85;
 
   // Particle field slow rotation
@@ -1791,6 +2307,35 @@ const io = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+// ---------- 3D pointer tilt on glass surfaces ----------
+// Cards lean toward the cursor on a shallow perspective and carry a soft
+// gold sheen under it. Cursor-only; touch and reduced-motion users get the
+// flat cards unchanged.
+if (interactive) {
+  document.querySelectorAll('.tilt').forEach(el => {
+    const sheen = document.createElement('span');
+    sheen.className = 'sheen';
+    el.appendChild(sheen);
+
+    const max = el.classList.contains('metric') ? 4 : el.classList.contains('deal') ? 5 : 6;
+
+    el.addEventListener('pointerenter', () => el.classList.add('tilting'));
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      el.style.setProperty('--ry', ((px - 0.5) * 2 * max).toFixed(2) + 'deg');
+      el.style.setProperty('--rx', ((0.5 - py) * 2 * max).toFixed(2) + 'deg');
+      el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+      el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+    });
+    el.addEventListener('pointerleave', () => {
+      el.classList.remove('tilting');
+      el.style.setProperty('--rx', '0deg');
+      el.style.setProperty('--ry', '0deg');
+    });
+  });
+}
 </script>
 
 </body>
